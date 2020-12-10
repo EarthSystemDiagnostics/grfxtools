@@ -19,6 +19,8 @@
 
 # RStudio files
 .Rproj.user/
+*.Rproj
+.Rbuildignore
 
 # produced vignettes
 vignettes/*.html
@@ -37,3 +39,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Mac OS X specific files
+*.DS_Store
