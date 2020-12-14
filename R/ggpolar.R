@@ -54,6 +54,7 @@
 #'   shall be plotted. Defaults to \code{NULL} which only plots the map.
 #' @import ggplot2 maptools rgeos
 #' @importFrom raster crop extent
+#' @importFrom rlang .data
 #' @author Andrew Dolman <andrew.dolman@awi.de> with some modifications by
 #'   Thomas Münch.
 #' @source Adapted from Mikey Harper's plot; see
@@ -211,7 +212,8 @@ ggpolar <- function(pole = c("N", "S"),
   # Get map outline and crop
   if (is.segment | pole == "N") {
 
-    utils::data("wrld_simpl", package = "maptools")
+    wrld_simpl <- NULL # avoid package check note
+    utils::data("wrld_simpl", package = "maptools", envir = environment())
     map.outline <- raster::crop(wrld_simpl,
                                 raster::extent(min.lon, max.lon,
                                                min.lat, max.lat),
@@ -234,7 +236,8 @@ ggpolar <- function(pole = c("N", "S"),
   p <- p +
 
     # Plot map outline and project to polar coordinates
-    geom_polygon(data = map.outline, aes(x = long, y = lat, group = group),
+    geom_polygon(data = map.outline,
+                 aes(x = .data$long, y = .data$lat, group = .data$group),
                  fill = land.fill.colour, colour = country.outline.colour) +
 
     coord_map("ortho",
@@ -263,7 +266,8 @@ ggpolar <- function(pole = c("N", "S"),
 
   # Lat axis lines
   if (plt.lat.axes) {
-    p <- p + geom_line(data = lat.lines, aes(y = lat, x = long, group = lat),
+    p <- p + geom_line(data = lat.lines,
+                       aes(y = .data$lat, x = .data$long, group = .data$lat),
                        size = 0.25, linetype = "dashed", colour = "black")
   }
   # Lat axis labels

@@ -19,6 +19,7 @@ Imports:
     maptools (>= 0.9.9),
     raster (>= 3.0.7),
     rgeos (>= 0.5.2),
+    rlang,
     scales (>= 1.1.1),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2)

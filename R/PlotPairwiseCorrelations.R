@@ -37,6 +37,7 @@
 #'   scale_x_discrete scale_y_discrete theme_minimal coord_fixed
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr gather
+#' @importFrom rlang .data
 #' @export
 PlotPairwiseCorrelations <- function(M,
                                      axis.label = NULL,
@@ -49,24 +50,25 @@ PlotPairwiseCorrelations <- function(M,
   c.m[lower.tri(c.m, diag = TRUE)] <- NA
   c.m <- tibble::as_tibble(c.m)
   c.m <- dplyr::mutate(c.m, fac.a = colnames(M))
-  c.m <- tidyr::gather(c.m, fac.b, Correlation, -fac.a)
+  c.m <- tidyr::gather(c.m, .data$fac.b, .data$Correlation, -.data$fac.a)
   c.m <- dplyr::mutate(c.m,
-                       fac.a = factor(fac.a, levels = colnames(M),
+                       fac.a = factor(.data$fac.a, levels = colnames(M),
                                       ordered = TRUE),
-                       fac.b = factor(fac.b, levels = rev(colnames(M)),
+                       fac.b = factor(.data$fac.b, levels = rev(colnames(M)),
                                       ordered = TRUE))
 
-  c.m <- dplyr::filter(c.m, stats::complete.cases(Correlation))
+  c.m <- dplyr::filter(c.m, stats::complete.cases(.data$Correlation))
 
   p <- NULL
 
   if (plotit) {
 
-    p <- ggplot2::ggplot(c.m, ggplot2::aes(x = fac.a, y = fac.b,
-                                           fill = Correlation))
+    p <- ggplot2::ggplot(c.m, ggplot2::aes(x = .data$fac.a, y = .data$fac.b,
+                                           fill = .data$Correlation))
     p <- p + ggplot2::geom_tile(colour = "white")
-    p <- p + ggplot2::geom_text(ggplot2::aes(label = round(Correlation, 2)),
-                                color = "black", size = 4)
+    p <- p + ggplot2::geom_text(ggplot2::aes(
+               label = round(.data$Correlation, 2)),
+               color = "black", size = 4)
     p <- p + ggplot2::scale_fill_gradient2(low = "blue", high = "yellow",
                                            mid = "white", midpoint = 0,
                                            limit = c(-1,1),
