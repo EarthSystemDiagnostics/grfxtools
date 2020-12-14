@@ -22,14 +22,14 @@
 Polyplot <- function(x, y1, y2, col = "black", alpha = 0.2, ...) {
 
   inp <- list(x, y1, y2)
-  if (var(sapply(inp, length)) != 0)
+  if (stats::var(sapply(inp, length)) != 0)
     stop("All input vectors must be of the same length.")
   if (any(sapply(inp, function(x){any(is.na(x))})))
     warning("Polyplot: Missing values as input.", call. = FALSE)
 
-  col <- adjustcolor(col = col, alpha = alpha)
+  col <- grDevices::adjustcolor(col = col, alpha = alpha)
 
-  polygon(c(x, rev(x)), c(y1, rev(y2)),
-          col = col, border = NA, ...)
+  graphics::polygon(c(x, rev(x)), c(y1, rev(y2)),
+                    col = col, border = NA, ...)
 
 }

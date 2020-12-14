@@ -45,7 +45,7 @@ PlotPairwiseCorrelations <- function(M,
 
   if (is.null(colnames(M))) colnames(M) <- 1 : ncol(M)
 
-  c.m <- cor(M)
+  c.m <- stats::cor(M)
   c.m[lower.tri(c.m, diag = TRUE)] <- NA
   c.m <- tibble::as_tibble(c.m)
   c.m <- dplyr::mutate(c.m, fac.a = colnames(M))
@@ -56,7 +56,7 @@ PlotPairwiseCorrelations <- function(M,
                        fac.b = factor(fac.b, levels = rev(colnames(M)),
                                       ordered = TRUE))
 
-  c.m <- dplyr::filter(c.m, complete.cases(Correlation))
+  c.m <- dplyr::filter(c.m, stats::complete.cases(Correlation))
 
   p <- NULL
 

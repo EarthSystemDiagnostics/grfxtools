@@ -211,7 +211,7 @@ ggpolar <- function(pole = c("N", "S"),
   # Get map outline and crop
   if (is.segment | pole == "N") {
 
-    data("wrld_simpl", package = "maptools")
+    utils::data("wrld_simpl", package = "maptools")
     map.outline <- raster::crop(wrld_simpl,
                                 raster::extent(min.lon, max.lon,
                                                min.lat, max.lat),
