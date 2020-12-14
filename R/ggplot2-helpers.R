@@ -13,8 +13,10 @@
 #' @export
 #' @importFrom scales trans_new log_breaks
 reverselog_trans <- function(base = exp(1)) {
+
   trans <- function(x) -log(x, base)
   inv <- function(x) base^(-x)
+
   scales::trans_new(paste0("reverselog-", format(base)), trans, inv,
                     scales::log_breaks(base = base),
                     domain = c(1e-100, Inf))
@@ -46,6 +48,7 @@ reverselog_trans <- function(base = exp(1)) {
 #' gg
 #' @export
 facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
+
   built.plot <- ggplot_build(ggplot.obj)
 
   # Make robust to changes in built ggplot object stucture in dev vs. CRAN version
@@ -55,7 +58,7 @@ facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
   } else if (is.null(built.plot$layout$panel_ranges) == FALSE) {
     n.pages <-
       ceiling(length(built.plot$layout$panel_ranges) / (nrow * ncol))
-  } else{
+  } else {
     stop("Structure of built ggplot object has changed")
   }
 
@@ -70,5 +73,6 @@ facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
         page = i
       )
   })
+
   return(ggs)
 }

@@ -41,30 +41,36 @@
 PlotPairwiseCorrelations <- function(M,
                                      axis.label = NULL,
                                      return.corr.tibble = FALSE,
-                                     plotit = TRUE){
-  if (is.null(colnames(M))) colnames(M) <- 1:ncol(M)
+                                     plotit = TRUE) {
+
+  if (is.null(colnames(M))) colnames(M) <- 1 : ncol(M)
+
   c.m <- cor(M)
   c.m[lower.tri(c.m, diag = TRUE)] <- NA
   c.m <- tibble::as_tibble(c.m)
   c.m <- dplyr::mutate(c.m, fac.a = colnames(M))
   c.m <- tidyr::gather(c.m, fac.b, Correlation, -fac.a)
   c.m <- dplyr::mutate(c.m,
-                       fac.a = factor(fac.a, levels = colnames(M), ordered = TRUE),
-                       fac.b = factor(fac.b, levels = rev(colnames(M)), ordered = TRUE))
+                       fac.a = factor(fac.a, levels = colnames(M),
+                                      ordered = TRUE),
+                       fac.b = factor(fac.b, levels = rev(colnames(M)),
+                                      ordered = TRUE))
 
   c.m <- dplyr::filter(c.m, complete.cases(Correlation))
 
   p <- NULL
 
-  if (plotit){
-    p <- ggplot2::ggplot(c.m, ggplot2::aes(x = fac.a, y = fac.b, fill = Correlation))
+  if (plotit) {
+
+    p <- ggplot2::ggplot(c.m, ggplot2::aes(x = fac.a, y = fac.b,
+                                           fill = Correlation))
     p <- p + ggplot2::geom_tile(colour = "white")
     p <- p + ggplot2::geom_text(ggplot2::aes(label = round(Correlation, 2)),
                                 color = "black", size = 4)
     p <- p + ggplot2::scale_fill_gradient2(low = "blue", high = "yellow",
-                                  mid = "white", midpoint = 0,
-                                  limit = c(-1,1),
-                                  name="Pearson\nCorrelation")
+                                           mid = "white", midpoint = 0,
+                                           limit = c(-1,1),
+                                           name="Pearson\nCorrelation")
     p <- p + ggplot2::scale_x_discrete(axis.label)
     p <- p + ggplot2::scale_y_discrete(axis.label)
     p <- p + ggplot2::theme_minimal()
@@ -72,10 +78,10 @@ PlotPairwiseCorrelations <- function(M,
     p
   }
 
-  if (return.corr.tibble){
+  if (return.corr.tibble) {
     return(list(plot = p, correlations = c.m))
-  }else{
-      return(p)
-    }
+  } else {
+    return(p)
+  }
 
 }
