@@ -58,7 +58,6 @@
 #'   Thomas Münch.
 #' @source Adapted from Mikey Harper's plot; see
 #'   https://stackoverflow.com/a/49084793.
-#' @export
 #' @examples
 #' library(ggplot2)
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4)
@@ -96,6 +95,7 @@
 #' ggpolar(pole = "S", max.lat = 90, min.lat = 55)
 #' ggpolar(pole = "S", max.lat = -90, min.lat = -55)
 #' }
+#' @export
 ggpolar <- function(pole = c("N", "S"),
                     max.lat, min.lat,
                     max.lon = 180, min.lon = -180,

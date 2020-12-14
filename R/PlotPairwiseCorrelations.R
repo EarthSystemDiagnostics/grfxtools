@@ -1,18 +1,21 @@
-#' @title Calculate and plot a pairwise correlations
-#' @description Takes a matrix or dataframe and calculates the pairwise
-#'   correlations between all columns. Plots these as a ggplot tilemap.
-#'   Optionally returns the pairwise correlations as a tidy tibble.
-#' @param M A matrix or dataframe for which the pairwise corrlelations between
+#' Calculate and plot pairwise correlations
+#'
+#' Takes a matrix or dataframe and calculates the pairwise correlations between
+#' all columns, and plots these as a ggplot tilemap. Optionally, the pairwise
+#' correlations can be returned as a tidy tibble.
+#'
+#' @param M a matrix or dataframe for which the pairwise corrlelations between
 #'   the columns are desired.
-#' @param axis.label Optional label for x,y figure axes, Default: NULL
-#' @param return.corr.tibble Return the correlations?, Default: FALSE
-#' @param plotit Plot the correlations, Default: TRUE
-#' @return Default: a ggplot2 object, optionally the correlations as a tibble.
+#' @param axis.label charcter string with an optional label for the x and y
+#'   figure axes; defaults to \code{NULL} (no label).
+#' @param return.corr.tibble logical; return the correlations as a tidy tibble?
+#'   Defaults to \code{FALSE}.
+#' @param plotit logical; plot the correlations? Defaults to \code{TRUE}.
+#' @return Per default, a ggplot2 object; optionally, a list with two elements:
+#'   the ggplot2 object and the correlations as a tibble.
 #' @author Andrew Dolman
 #' @details Ideas for code taken from here:
 #'   http://www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization
-#'
-#'
 #' @examples
 #' \dontrun{
 #' if(interactive()) {
@@ -29,12 +32,12 @@
 #' }
 #' }
 #' @rdname CorrelationMatrix
-#' @export
 #' @importFrom dplyr mutate filter
 #' @importFrom ggplot2 ggplot aes geom_tile geom_text scale_fill_gradient2
 #'   scale_x_discrete scale_y_discrete theme_minimal coord_fixed
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr gather
+#' @export
 PlotPairwiseCorrelations <- function(M,
                                      axis.label = NULL,
                                      return.corr.tibble = FALSE,

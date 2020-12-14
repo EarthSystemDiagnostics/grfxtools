@@ -7,21 +7,20 @@
 facet_wrap_paginate_auto(ggplot.obj, facets, nrow, ncol)
 }
 \arguments{
-\item{ggplot.obj}{A ggplot object}
+\item{ggplot.obj}{a ggplot2 object.}
 
-\item{facets}{Faceting formula, see \code{\link[ggplot2]{facet_wrap}}}
+\item{facets}{faceting formula; see \code{\link[ggplot2]{facet_wrap}}.}
 
-\item{nrow}{number of columns per page}
+\item{nrow}{number of columns per page.}
 
-\item{ncol}{number of rows per page}
+\item{ncol}{number of rows per page.}
 }
 \value{
-A list of ggplot objects
+A list of ggplot2 objects.
 }
 \description{
-A helper function to return all pages from
-ggforce::facet_wrap_paginate. It automatically calculates
-required number of pages.
+A helper function to return all pages from ggforce::facet_wrap_paginate. It
+automatically calculates the required number of pages.
 }
 \examples{
 library(ggplot2)
