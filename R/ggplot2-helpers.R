@@ -11,7 +11,6 @@
 #'  \code{\link[scales]{trans_new}},\code{\link[scales]{breaks_log}}
 #' @source https://stackoverflow.com/a/11054781/1198125
 #' @export
-#' @importFrom scales trans_new log_breaks
 reverselog_trans <- function(base = exp(1)) {
 
   trans <- function(x) -log(x, base)
@@ -32,7 +31,6 @@ reverselog_trans <- function(base = exp(1)) {
 #' @param nrow number of columns per page.
 #' @param ncol number of rows per page.
 #' @return A list of ggplot2 objects.
-#' @importFrom ggforce facet_wrap_paginate
 #' @examples
 #' library(ggplot2)
 #' dat <- expand.grid(x = 1:100, a = letters[1:11])
@@ -49,7 +47,7 @@ reverselog_trans <- function(base = exp(1)) {
 #' @export
 facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
 
-  built.plot <- ggplot_build(ggplot.obj)
+  built.plot <- ggplot2::ggplot_build(ggplot.obj)
 
   # Make robust to changes in built ggplot object stucture in dev vs. CRAN version
   if (is.null(built.plot$layout$panel_params) == FALSE) {
@@ -67,7 +65,7 @@ facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
       ggforce::facet_wrap_paginate(
         facets,
         scales = "free_y",
-        labeller = labeller(.multi_line = FALSE),
+        labeller = ggplot2::labeller(.multi_line = FALSE),
         ncol = ncol,
         nrow = nrow,
         page = i

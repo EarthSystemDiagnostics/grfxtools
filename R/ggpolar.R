@@ -52,8 +52,7 @@
 #'   \code{\link[ggplot2]{coord_cartesian}}.
 #' @param data.layer optional ggplot2 layer of data onto which the polar map
 #'   shall be plotted. Defaults to \code{NULL} which only plots the map.
-#' @import ggplot2 maptools rgeos
-#' @importFrom raster crop extent
+#' @import maptools
 #' @importFrom rlang .data
 #' @author Andrew Dolman <andrew.dolman@awi.de> with some modifications by
 #'   Thomas Münch.
@@ -222,13 +221,13 @@ ggpolar <- function(pole = c("N", "S"),
 
     # Use different map source for south polar full longitude plot
     # to circumvent buggy line at 180 deg W
-    map.outline <- map_data("world", "Antarctica")
+    map.outline <- ggplot2::map_data("world", "Antarctica")
     i <- which(map.outline$lat >= min.lat & map.outline$lat <= max.lat)
     map.outline <- map.outline[i, ]
   }
 
   if (!length(data.layer)) {
-    p <- ggplot()
+    p <- ggplot2::ggplot()
   } else {
     p <- data.layer
   }
@@ -236,39 +235,46 @@ ggpolar <- function(pole = c("N", "S"),
   p <- p +
 
     # Plot map outline and project to polar coordinates
-    geom_polygon(data = map.outline,
-                 aes(x = .data$long, y = .data$lat, group = .data$group),
-                 fill = land.fill.colour, colour = country.outline.colour) +
+    ggplot2::geom_polygon(data = map.outline,
+                          ggplot2::aes(x = .data$long, y = .data$lat,
+                                       group = .data$group),
+                          fill = land.fill.colour,
+                          colour = country.outline.colour) +
 
-    coord_map("ortho",
-              orientation = c(ifelse(pole == "N", 90, -90), rotate.to, 0),
-              xlim = c(min.lon, max.lon), clip = clip
-              ) +
+    ggplot2::coord_map("ortho",
+                       orientation = c(ifelse(pole == "N", 90, -90),
+                                       rotate.to, 0),
+                       xlim = c(min.lon, max.lon), clip = clip
+                       ) +
 
     # Remove axes and labels
-    scale_x_continuous("", breaks = NULL) +
-    scale_y_continuous("", breaks = NULL) +
+    ggplot2::scale_x_continuous("", breaks = NULL) +
+    ggplot2::scale_y_continuous("", breaks = NULL) +
 
     # Outer latitude axis
-    geom_line(aes(y = outer.lat.ax.val, x = min.lon : max.lon),
-              size = size.outer, colour = "black")
+    ggplot2::geom_line(
+      ggplot2::aes(y = outer.lat.ax.val, x = min.lon : max.lon),
+      size = size.outer, colour = "black")
 
     # Inner latitude axis
     if (!is.na(inner.lat.ax.val)) {
-      p <- p + geom_line(aes(y = inner.lat.ax.val, x = min.lon : max.lon),
-                         size = size.outer, colour = "black")
+      p <- p + ggplot2::geom_line(
+                 ggplot2::aes(y = inner.lat.ax.val, x = min.lon : max.lon),
+                 size = size.outer, colour = "black")
     }
 
     # Change theme to remove panel backgound
-    p <- p + theme(panel.background = element_blank())
+    p <- p + ggplot2::theme(panel.background = ggplot2::element_blank())
 
   # Add axes and labels
 
   # Lat axis lines
   if (plt.lat.axes) {
-    p <- p + geom_line(data = lat.lines,
-                       aes(y = .data$lat, x = .data$long, group = .data$lat),
-                       size = 0.25, linetype = "dashed", colour = "black")
+    p <- p + ggplot2::geom_line(data = lat.lines,
+                                ggplot2::aes(y = .data$lat, x = .data$long,
+                                             group = .data$lat),
+                                size = 0.25, linetype = "dashed",
+                                colour = "black")
   }
   # Lat axis labels
   if (plt.lat.labels) {
@@ -277,35 +283,38 @@ ggpolar <- function(pole = c("N", "S"),
       lat.ax.labs.pos <- mean.lon
     }
 
-    p <- p + geom_label(aes(x = lat.ax.labs.pos,
-                            y = lat.ax.vals,
+    p <- p + ggplot2::geom_label(
+               ggplot2::aes(x = lat.ax.labs.pos, y = lat.ax.vals,
                             label = lat.ax.labs),
-                        size = ax.labs.size,
-                        alpha = 0.75, label.size = 0)
+               size = ax.labs.size,
+               alpha = 0.75, label.size = 0)
   }
 
   # Longitude axis lines
   if (plt.lon.axes) {
 
-    p <- p + geom_segment(aes(y = long.line.strt, yend = long.line.end,
-                              x = long.ax.vals, xend = long.ax.vals),
-                          linetype = "dashed", colour = "black", size = 0.25)
+    p <- p + ggplot2::geom_segment(
+               ggplot2::aes(y = long.line.strt, yend = long.line.end,
+                            x = long.ax.vals, xend = long.ax.vals),
+               linetype = "dashed", colour = "black", size = 0.25)
   }
   # Longitude axis labels
   if (plt.lon.labels) {
 
-    p <- p + geom_text(aes(x = long.ax.vals,
-                           y = long.lab.pos.2,
-                           label = long.ax.labs,
-                           angle = long.ax.lab.rotation),
-                       size = ax.labs.size)
+    p <- p + ggplot2::geom_text(
+               ggplot2::aes(x = long.ax.vals,
+                            y = long.lab.pos.2,
+                            label = long.ax.labs,
+                            angle = long.ax.lab.rotation),
+               size = ax.labs.size)
   }
 
   # If segment add lines to edge
   if (is.segment) {
-    p <- p + geom_segment(aes(y = long.line.strt, yend = long.line.end,
-                              x = c(min.lon, max.lon), xend = c(min.lon, max.lon)),
-                          colour = "black", size = size.outer)
+    p <- p + ggplot2::geom_segment(
+               ggplot2::aes(y = long.line.strt, yend = long.line.end,
+                            x = c(min.lon, max.lon), xend = c(min.lon, max.lon)),
+               colour = "black", size = size.outer)
   }
 
   p

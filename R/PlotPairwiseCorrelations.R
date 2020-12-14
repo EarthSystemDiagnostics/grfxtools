@@ -32,11 +32,6 @@
 #' }
 #' }
 #' @rdname CorrelationMatrix
-#' @importFrom dplyr mutate filter
-#' @importFrom ggplot2 ggplot aes geom_tile geom_text scale_fill_gradient2
-#'   scale_x_discrete scale_y_discrete theme_minimal coord_fixed
-#' @importFrom tibble as_tibble
-#' @importFrom tidyr gather
 #' @importFrom rlang .data
 #' @export
 PlotPairwiseCorrelations <- function(M,
