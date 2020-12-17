@@ -112,8 +112,15 @@ ggpolar <- function(pole = c("N", "S"),
                     lat.ax.labs.pos = NULL, ax.labs.size = 4, clip = "on",
                     data.layer = NULL) {
 
-  # force to repair invalid geometries
-  rgeos::set_RGEOS_CheckValidity(2L)
+  # force to repair invalid geometries if rgeos is available
+  if (requireNamespace("rgeos", quietly = TRUE)) {
+    rgeos::set_RGEOS_CheckValidity(2L)
+  } else {
+    message("\nPackage 'rgeos' not installed on your system.\n\n",
+            "When encountering an error with ggpolar() ",
+            "from invalid geometry with Ring Self-intersection,\n",
+            "please install 'rgeos' to fix it.\n")
+  }
 
   pole <- match.arg(pole, choices = c("N", "S"))
 
