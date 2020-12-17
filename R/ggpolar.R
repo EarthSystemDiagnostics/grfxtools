@@ -127,6 +127,9 @@ ggpolar <- function(pole = c("N", "S"),
   if (pole == "N" & max.lat < 0) stop("If pole == N, max.lat should be positive")
   if (pole == "S" & min.lat > 0) stop("If pole == S, min.lat should be negative")
 
+  # degree symbol
+  degree.sym <- "\u00b0"
+
   stopifnot(max.lat > min.lat)
   stopifnot(max.lon <= 180 & min.lon >= -180 & max.lat <= 90 & min.lat >= -90)
 
@@ -178,7 +181,7 @@ ggpolar <- function(pole = c("N", "S"),
 
   lat.ax.vals <- lat.ax.vals[abs(lat.ax.vals) != 90]
   lat.ax.labs <- paste0(ifelse(lat.ax.vals < 0, -lat.ax.vals, lat.ax.vals),
-                        "°", ifelse(lat.ax.vals < 0, " S", " N"))
+                        degree.sym, ifelse(lat.ax.vals < 0, " S", " N"))
 
   # Define the x axes required
   if (!length(long.ax.vals)) {
@@ -189,10 +192,10 @@ ggpolar <- function(pole = c("N", "S"),
     long.ax.vals <- long.ax.vals[long.ax.vals != -180]
   }
 
-  long.ax.labs <- paste0(abs(long.ax.vals), "°",
+  long.ax.labs <- paste0(abs(long.ax.vals), degree.sym,
                          ifelse(long.ax.vals <= 0, " W", " E"))
-  long.ax.labs[long.ax.vals == 0] <- "0°"
-  long.ax.labs[long.ax.vals == 180] <- "180° W"
+  long.ax.labs[long.ax.vals == 0] <- paste0(0, degree.sym)
+  long.ax.labs[long.ax.vals == 180] <- paste0(180, degree.sym, " W")
 
   lat.lines <- expand.grid(long = min.lon : max.lon, lat = lat.ax.vals)
 
