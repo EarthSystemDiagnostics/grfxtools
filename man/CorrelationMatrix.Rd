@@ -2,7 +2,7 @@
 % Please edit documentation in R/PlotPairwiseCorrelations.R
 \name{PlotPairwiseCorrelations}
 \alias{PlotPairwiseCorrelations}
-\title{Calculate and plot a pairwise correlations}
+\title{Calculate and plot pairwise correlations}
 \usage{
 PlotPairwiseCorrelations(
   M,
@@ -12,22 +12,25 @@ PlotPairwiseCorrelations(
 )
 }
 \arguments{
-\item{M}{A matrix or dataframe for which the pairwise corrlelations between
+\item{M}{a matrix or dataframe for which the pairwise corrlelations between
 the columns are desired.}
 
-\item{axis.label}{Optional label for x,y figure axes, Default: NULL}
+\item{axis.label}{charcter string with an optional label for the x and y
+figure axes; defaults to \code{NULL} (no label).}
 
-\item{return.corr.tibble}{Return the correlations?, Default: FALSE}
+\item{return.corr.tibble}{logical; return the correlations as a tidy tibble?
+Defaults to \code{FALSE}.}
 
-\item{plotit}{Plot the correlations, Default: TRUE}
+\item{plotit}{logical; plot the correlations? Defaults to \code{TRUE}.}
 }
 \value{
-Default: a ggplot2 object, optionally the correlations as a tibble.
+Per default, a ggplot2 object; optionally, a list with two elements:
+  the ggplot2 object and the correlations as a tibble.
 }
 \description{
-Takes a matrix or dataframe and calculates the pairwise
-  correlations between all columns. Plots these as a ggplot tilemap.
-  Optionally returns the pairwise correlations as a tidy tibble.
+Takes a matrix or dataframe and calculates the pairwise correlations between
+all columns, and plots these as a ggplot tilemap. Optionally, the pairwise
+correlations can be returned as a tidy tibble.
 }
 \details{
 Ideas for code taken from here:

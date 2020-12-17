@@ -32,7 +32,7 @@ Polyplot(x, y1 = x + 2, y2 = x - 2)
 lines(x, lwd = 2)
 }
 \seealso{
-\code{\link{polygon}}
+\code{\link[graphics]{polygon}}
 }
 \author{
 Thomas Münch

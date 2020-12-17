@@ -4,8 +4,12 @@
 \alias{ggpolar}
 \title{Nicely formatted polar ggplot}
 \source{
-Adapted from Mikey Harper's plot; see
+Code adapted from Mikey Harper's plot; see
   https://stackoverflow.com/a/49084793.
+
+  Coastlines for polar and segment plots are taken from the "wrld_simpl"
+  dataset from package maptools, licensed under GPL-3:
+  https://cran.r-project.org/web/packages/maptools/index.html
 }
 \usage{
 ggpolar(
