@@ -52,12 +52,15 @@
 #'   \code{\link[ggplot2]{coord_cartesian}}.
 #' @param data.layer optional ggplot2 layer of data onto which the polar map
 #'   shall be plotted. Defaults to \code{NULL} which only plots the map.
-#' @import maptools
 #' @importFrom rlang .data
 #' @author Andrew Dolman <andrew.dolman@awi.de> with some modifications by
 #'   Thomas Münch.
-#' @source Adapted from Mikey Harper's plot; see
+#' @source Code adapted from Mikey Harper's plot; see
 #'   https://stackoverflow.com/a/49084793.
+#'
+#'   Coastlines for polar and segment plots are taken from the "wrld_simpl"
+#'   dataset from package maptools, licensed under GPL-3:
+#'   https://cran.r-project.org/web/packages/maptools/index.html
 #' @examples
 #' library(ggplot2)
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4)
@@ -221,9 +224,7 @@ ggpolar <- function(pole = c("N", "S"),
   # Get map outline and crop
   if (is.segment | pole == "N") {
 
-    wrld_simpl <- NULL # avoid package check note
-    utils::data("wrld_simpl", package = "maptools", envir = environment())
-    map.outline <- raster::crop(wrld_simpl,
+    map.outline <- raster::crop(maptools_wrld_simpl,
                                 raster::extent(min.lon, max.lon,
                                                min.lat, max.lat),
                                 snap = "in")

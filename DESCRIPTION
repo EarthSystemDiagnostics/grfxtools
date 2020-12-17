@@ -17,7 +17,6 @@ Imports:
     dplyr (>= 1.0.2),
     ggforce (>= 0.3.1),
     ggplot2 (>= 3.2.1),
-    maptools (>= 0.9.9),
     raster (>= 3.0.7),
     rlang,
     scales (>= 1.1.1),
