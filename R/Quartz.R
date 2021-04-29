@@ -56,9 +56,9 @@ Quartz <- function(file = NULL, type = "native", height = 6, width = 8,
   }
 
   # Open device
-  quartz(width = width, height = height, file = file, type = type,
-         pointsize = pointsize, family = family, antialias = antialias,
-         bg = bg, canvas = canvas, dpi = dpi)
+  grDevices::quartz(width = width, height = height, file = file, type = type,
+                    pointsize = pointsize, family = family,
+                    antialias = antialias, bg = bg, canvas = canvas, dpi = dpi)
   op <- Par(mar = mar, las = las, cex.axis = cex.axis,
             cex.lab = cex.lab, cex.main = cex.main, ...)
 
@@ -103,6 +103,6 @@ Quartz <- function(file = NULL, type = "native", height = 6, width = 8,
 Par <- function(mar = c(5, 5, 0.5, 0.5), las = 1,
                 cex.axis = 1.25, cex.lab = 1.5, cex.main = 1.5, ...) {
 
-  invisible(par(c(as.list(environment()), list(...))))
+  invisible(graphics::par(c(as.list(environment()), list(...))))
 
 }

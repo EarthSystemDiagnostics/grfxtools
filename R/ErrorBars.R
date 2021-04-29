@@ -26,17 +26,17 @@
 ErrorBars <- function(x, y, upper, lower = upper, width = 0.05,
                       col = "black", lwd = 1, lty = 1) {
 
-    if (length(x) != length(y)) stop("x and y lengths differ.")
+  if (length(x) != length(y)) stop("x and y lengths differ.")
 
-    usr <- par("usr")
-    w <- width * diff(range(usr[1 : 2]))
-    width <- w / 2
+  usr <- graphics::par("usr")
+  w <- width * diff(range(usr[1 : 2]))
+  width <- w / 2
 
-    segments(x, y - lower, x, y + upper, col = col,
-             lwd = lwd, lty = lty, lend = 1)
-    segments(x - width, y - lower, x + width, y - lower, col = col,
-             lwd = lwd, lty = lty, lend = 1)
-    segments(x - width, y + upper, x + width, y + upper, col = col,
-             lwd = lwd, lty = lty, lend = 1)
+  graphics::segments(x, y - lower, x, y + upper, col = col,
+                     lwd = lwd, lty = lty, lend = 1)
+  graphics::segments(x - width, y - lower, x + width, y - lower, col = col,
+                     lwd = lwd, lty = lty, lend = 1)
+  graphics::segments(x - width, y + upper, x + width, y + upper, col = col,
+                     lwd = lwd, lty = lty, lend = 1)
 
 }

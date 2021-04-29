@@ -21,16 +21,16 @@
 #' @export
 PlotStamp <- function(script, add.info = NULL, incr = 0.01, cex = 0.75) {
 
-    if (is.null(add.info)) {
-        info <- sprintf("Date: %s\nsrc: %s", Sys.time(), script)
-    } else {
-        info <- sprintf("Date: %s\nsrc: %s\nInfo:\n%s.",
-                        Sys.time(), script, add.info)
-    }
+  if (is.null(add.info)) {
+    info <- sprintf("Date: %s\nsrc: %s", Sys.time(), script)
+  } else {
+    info <- sprintf("Date: %s\nsrc: %s\nInfo:\n%s.",
+                    Sys.time(), script, add.info)
+  }
 
-    usr <- par("usr")
-    add <- incr * c(diff(range(usr[1 : 2])), diff(range(usr[3 : 4])))
-    text(usr[1] + add[1], usr[4] - add[2], info, adj = c(0, 1),
-         cex = cex * par("cex"))
+  usr <- graphics::par("usr")
+  add <- incr * c(diff(range(usr[1 : 2])), diff(range(usr[3 : 4])))
+  graphics::text(usr[1] + add[1], usr[4] - add[2], info, adj = c(0, 1),
+                 cex = cex * graphics::par("cex"))
 
 }

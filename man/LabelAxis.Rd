@@ -11,7 +11,7 @@ LabelAxis(
   time.unit = NULL,
   unit.type = "standard",
   bracket.type = "round",
-  font = par()$font.lab
+  font = graphics::par()$font.lab
 )
 }
 \arguments{
