@@ -1,3 +1,26 @@
+# grfxtools 0.3.0
+
+Several new functions added:
+
+* `Quartz()` [for Mac OS users only]: wrapper for the `quartz()` device using
+  per default a 4:3 aspect ratio for on-screen plotting or saving to a file and
+  including the setting of default graphical parameters which are deliberately
+  different from base R's settings to produce visually more appealing plots.
+* `Par()`: function to set graphical parameters specified as its arguments via
+  passing them on to a call to `par()`. The function's default settings are set
+  to produce visually more appealing plots compared to base R's default
+  settings.
+* `ErrorBars()`: function to add error bars to an existing point plot.
+* `PlotStamp()`: function to add session information to an existing base plot:
+  script name, date of plot creation, etc., placed in the upper right corner of
+  the plot, so that for later reference you know when and how you created the
+  plot.
+* `LabelAxis()`: function to format nice axis labels involving common math
+  expressions for label and units.
+* `ColorPal()`: wrapper function to quickly obtain a colour palette from the
+  ColorBrewer 2.0 collection for use in standard plots, image plots, or filled
+  contour plots.
+
 # grfxtools 0.2.0
 
 Changes for a proper and more self-contained package:
