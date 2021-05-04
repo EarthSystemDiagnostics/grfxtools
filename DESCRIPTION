@@ -18,6 +18,7 @@ Imports:
     ggforce (>= 0.3.1),
     ggplot2 (>= 3.2.1),
     raster (>= 3.0.7),
+    RColorBrewer (>= 1.1.2),
     rlang,
     scales (>= 1.1.1),
     tibble (>= 3.0.4),
