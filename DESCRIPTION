@@ -1,7 +1,7 @@
 Package: grfxtools
 Title: An R package of tools to assist with various plotting
     tasks
-Version: 0.2.0
+Version: 0.3.0
 Author: Thomas Muench [aut, cre], Andrew Dolman [aut]
 Maintainer: Thomas Muench <thomas.muench@awi.de>
 Description: This package contains various functions to
@@ -18,6 +18,7 @@ Imports:
     ggforce (>= 0.3.1),
     ggplot2 (>= 3.2.1),
     raster (>= 3.0.7),
+    RColorBrewer (>= 1.1.2),
     rlang,
     scales (>= 1.1.1),
     tibble (>= 3.0.4),
