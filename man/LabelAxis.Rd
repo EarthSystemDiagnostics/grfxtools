@@ -11,6 +11,7 @@ LabelAxis(
   time.unit = NULL,
   unit.type = "standard",
   bracket.type = "round",
+  dot = FALSE,
   font = graphics::par()$font.lab
 )
 }
@@ -34,15 +35,21 @@ of time needed to determine the unit of power spectral density when
 
 \item{unit.type}{character; the type of axis for determining the format
 of the axis unit. Default \code{"standard"} means to use the unit as is;
-other possible options are frequency axis, \code{"freq"}, and power
-spectral density axis, \code{"psd"}. For a frequency axis, the passed
-\code{unit} is displayed to the power of -1; for a power spectral density
-axis, the \code{unit} is displayed to the power of 2 multiplied by the unit
-of time given in \code{time.unit}; see the examples.}
+other possible options are frequency axis, \code{"freq"}, trend axis,
+\code{"trend"}, and power spectral density axis, \code{"psd"}. For a
+frequency axis, the passed \code{unit} is displayed to the power of -1; for
+a trend axis, the passed \code{unit} is multiplied by the unit of time
+given in \code{time.unit} to the power of -1; and for a power spectral
+density axis, the \code{unit} is displayed to the power of 2 multiplied by
+the unit of time given in \code{time.unit}; see the examples.}
 
 \item{bracket.type}{the type of bracket to use for surrounding the
 \code{unit}; possible options are "round" brackets (default), "square"
 brackets, or "curly" \code{\{.\}} brackets.}
+
+\item{dot}{logical; shall a multiplication sign (as a dot) be placed between
+the units for axis types \code{"trend"} and \code{"psd"}? Defaults to
+\code{FALSE}.}
 
 \item{font}{an integer which specifies which font to use for the label
 text. Defaults to the current axis label font setting of \code{par()}; see
@@ -79,40 +86,47 @@ For \code{unit}:
 }
 \examples{
 
-plot(1 : 12, type = "n", xlab = "", ylab = "")
+plot(1 : 13, type = "n", xlab = "", ylab = "")
 
 # preformatted isotope labels and units using the keywords
-text(1, 12, adj = 0, labels = LabelAxis(label = "oxy"))
-text(1, 11, adj = 0, labels = LabelAxis(label = "dtr"))
+text(1, 13, adj = 0, labels = LabelAxis(label = "oxy"))
+text(1, 12, adj = 0, labels = LabelAxis(label = "dtr"))
 # change font setting
 # (but note that greek letters and other symbols remain unchanged)
-text(1, 10, adj = 0, labels = LabelAxis(label = "dtr.var", font = 2))
+text(1, 11, adj = 0, labels = LabelAxis(label = "dtr.var", font = 2))
 
 # use normal text as label
-text(1, 9, adj = 0, labels = LabelAxis(label = "Some other isotope species"))
+text(1, 10, adj = 0, labels = LabelAxis(label = "Some other isotope species"))
 
 # use a prefix together with a preformatted label
-text(1, 8, adj = 0, labels = LabelAxis(label = "oxy", prefix = "Ice core"))
+text(1, 9, adj = 0, labels = LabelAxis(label = "oxy", prefix = "Ice core"))
 
 # temperature unit in degree Celsius
-text(1, 7, adj = 0,
+text(1, 8, adj = 0,
      labels =  LabelAxis(label = "Temperature", unit = "celsius"))
 
 # automatic formatting of unit for a frequency axis
-text(1, 6, adj = 0,
+text(1, 7, adj = 0,
      labels = LabelAxis(label = "Frequency", unit = "yr",
                         unit.type = "freq"))
+
+# automatic formatting of unit for a trend axis
+text(1, 6, adj = 0,
+     labels = LabelAxis(label = "Temperature trend", unit = "celsius",
+                        time.unit = "yr", unit.type = "trend"))
 
 # automatic formatting of unit for a power spectral density axis
 text(1, 5, adj = 0,
      labels = LabelAxis(label = "PSD", unit = "permil",
                         time.unit = "yr", unit.type = "psd"))
+# use a multiplication dot
 text(1, 4, adj = 0,
      labels = LabelAxis(label = "PSD", unit = "K",
-                        time.unit = "s", unit.type = "psd"))
+                        time.unit = "s", unit.type = "psd", dot = TRUE))
 
-# note for this are two units mandatory:
+# note for rge previous examples are two units mandatory:
 \dontrun{
+  LabelAxis(label = "trend", unit = "permil", unit.type = "trend")
   LabelAxis(label = "PSD", unit = "permil", unit.type = "psd")
 }
 
