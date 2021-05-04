@@ -7,6 +7,7 @@
 LabelAxis(
   label = "oxy",
   prefix = "",
+  suffix = "",
   unit = "permil",
   time.unit = NULL,
   unit.type = "standard",
@@ -21,6 +22,9 @@ the axis; see details for the available keywords to automatically produce
 common math expressions of axis names.}
 
 \item{prefix}{optional character string preceding the axis \code{label} with
+an empty space automatically being inserted between them.}
+
+\item{suffix}{optional character string following the axis \code{label} with
 an empty space automatically being inserted between them.}
 
 \item{unit}{character string with an abbreviation of the physical unit of
@@ -86,20 +90,27 @@ For \code{unit}:
 }
 \examples{
 
-plot(1 : 13, type = "n", xlab = "", ylab = "")
+plot(1 : 15, type = "n", xlab = "", ylab = "")
 
 # preformatted isotope labels and units using the keywords
-text(1, 13, adj = 0, labels = LabelAxis(label = "oxy"))
-text(1, 12, adj = 0, labels = LabelAxis(label = "dtr"))
+text(1, 15, adj = 0, labels = LabelAxis(label = "oxy"))
+text(1, 14, adj = 0, labels = LabelAxis(label = "dtr"))
 # change font setting
 # (but note that greek letters and other symbols remain unchanged)
-text(1, 11, adj = 0, labels = LabelAxis(label = "dtr.var", font = 2))
+text(1, 13, adj = 0, labels = LabelAxis(label = "dtr.var", font = 2))
 
 # use normal text as label
-text(1, 10, adj = 0, labels = LabelAxis(label = "Some other isotope species"))
+text(1, 12, adj = 0, labels = LabelAxis(label = "Some other isotope species"))
 
 # use a prefix together with a preformatted label
-text(1, 9, adj = 0, labels = LabelAxis(label = "oxy", prefix = "Ice core"))
+text(1, 11, adj = 0, labels = LabelAxis(label = "oxy", prefix = "Ice core"))
+
+# use a suffix together with a preformatted label
+text(1, 10, adj = 0, labels = LabelAxis(label = "oxy", suffix = "anomaly"))
+
+# use both
+text(1, 9, adj = 0, labels = LabelAxis(label = "oxy",
+     prefix = "Ice core", suffix = "anomaly"))
 
 # temperature unit in degree Celsius
 text(1, 8, adj = 0,
@@ -124,7 +135,7 @@ text(1, 4, adj = 0,
      labels = LabelAxis(label = "PSD", unit = "K",
                         time.unit = "s", unit.type = "psd", dot = TRUE))
 
-# note for rge previous examples are two units mandatory:
+# note that for the previous examples two units are mandatory:
 \dontrun{
   LabelAxis(label = "trend", unit = "permil", unit.type = "trend")
   LabelAxis(label = "PSD", unit = "permil", unit.type = "psd")
