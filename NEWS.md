@@ -1,3 +1,11 @@
+# grfxtools 0.3.1
+
+Update of `ColorPal()` function:
+
+The function parameter options now clearly distinguish between setting the
+number of input colours for the palette and setting the number of (interpolated)
+return colours.
+
 # grfxtools 0.3.0
 
 Several new functions added:
