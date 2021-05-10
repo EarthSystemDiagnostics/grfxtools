@@ -8,23 +8,30 @@ The ColorBrewer 2.0 collection can be viewed interactively at
   https://colorbrewer2.org.
 }
 \usage{
-ColorPal(name = "RdYlBu", n = 10, rev = FALSE, fun = FALSE)
+ColorPal(name = "RdYlBu", n.in = NULL, n.out = NULL, rev = FALSE, fun = FALSE)
 }
 \arguments{
 \item{name}{a palette name from the ColorBrewer 2.0 collection; defaults to
 the diverging \code{RdYlBu} palette.}
 
-\item{n}{integer number of different colours in the palette, minimum 3,
-maximum depending on the chosen palette. Default is \code{10} for the
-\code{RdYlBu} palette.}
+\item{n.in}{integer number of different input colours in the palette, minimum
+is 3, the possible maximum number of colours depends on the chosen
+palette. Default \code{NULL} means to use this maximum number of colours.}
+
+\item{n.out}{integer number of colours for the output vector if \code{fun =
+FALSE}; the default is to output as many colours as used for the palette,
+so \code{n.out} is set to the value of \code{n.in}. If a different number
+is specified here, the corresponding colours are obtained from
+interpolation between the range of colours spanned by the palette for the
+given number \code{n.in}; see the examples.}
 
 \item{rev}{logical; set to \code{TRUE} to reverse the order of colours in the
 palette.}
 
 \item{fun}{logical to control the return type; if set to \code{FALSE} (the
-default) returned is simply a character vector of length \code{n} with the
-hexadecimal colour codes from the requested palette. Set to \code{TRUE} to
-instead obtain a function that takes an integer argument (the required
+default) returned is simply a character vector of length \code{n.out} with
+the hexadecimal colour codes from the requested palette. Set to \code{TRUE}
+to instead obtain a function that takes an integer argument (the required
 number of colours) and returns a character vector of hexadecimal colour
 codes, which is needed, e.g., for a filled contour plot
 (\code{\link[graphics]{filled.contour}}).}
@@ -45,9 +52,22 @@ ColorPal()
 # reverse the order of colours
 ColorPal(rev = TRUE)
 
-# return a colour palette function instead for use in filled contour plots
+# return instead a colour palette function for use in filled contour plots
 fun <- ColorPal(fun = TRUE)
 fun(5)
+
+# note that the following two colour vectors are not identical:
+ColorPal(n.in = 11, n.out = 3)
+ColorPal(n.in = 3)
+# while the first call gives three colours from interpolating between the
+# full range of colours for the given palette (so that in this example the
+# first and last returned colour correspond to the outermost colours in the
+# given palette and the second colour is some midpoint value), the second
+# result is a subset of three colours from the specified palette, which do
+# not necessarily span the possible palette range and which are determined by
+# the 'RColorBrewer::brewer.pal()' function. In this context, also compare
+# the above results to the following call:
+ColorPal(n.in = 3, n.out = 11)
 
 }
 \seealso{
