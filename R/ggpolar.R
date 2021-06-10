@@ -10,6 +10,8 @@
 #' @param min.lon minimum longitude.
 #' @param longitude.spacing interval between longitude axis tick marks.
 #' @param land.fill.colour colour to shade the land.
+#' @param plot.political.boundaries should political (country) boundaries be
+#' plotted, defaults to FALSE
 #' @param country.outline.colour colour for political boundaries (default
 #'   "Black"); set to the same as \code{land.fill.colour} to hide them.
 #' @param n.lat.labels approximate number of latitude tickmarks.
@@ -64,6 +66,10 @@
 #' @examples
 #' library(ggplot2)
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4)
+#'
+#' # with political boundaries
+#' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4, plot.political.boundaries = TRUE)
+#'
 #' ggpolar(pole = "S", max.lat = -60, min.lat = -90)
 #'
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55,
@@ -102,6 +108,7 @@
 ggpolar <- function(pole = c("N", "S"),
                     max.lat, min.lat,
                     max.lon = 180, min.lon = -180,
+                    plot.political.boundaries = FALSE,
                     longitude.spacing = 60,
                     land.fill.colour = "Grey",
                     country.outline.colour = "Black",
@@ -222,7 +229,13 @@ ggpolar <- function(pole = c("N", "S"),
   }
 
   # Get map outline and crop
-  if (is.segment | pole == "N") {
+  if (is.segment | (pole == "N" & plot.political.boundaries == FALSE)) {
+
+    map.outline <- raster::crop(ne_land_50,
+                                raster::extent(min.lon, max.lon,
+                                               min.lat, max.lat),
+                                snap = "in")
+  } else if (is.segment | (pole == "N" & plot.political.boundaries == TRUE)) {
 
     map.outline <- raster::crop(maptools_wrld_simpl,
                                 raster::extent(min.lon, max.lon,

@@ -18,6 +18,7 @@ ggpolar(
   min.lat,
   max.lon = 180,
   min.lon = -180,
+  plot.political.boundaries = FALSE,
   longitude.spacing = 60,
   land.fill.colour = "Grey",
   country.outline.colour = "Black",
@@ -50,6 +51,9 @@ ggpolar(
 \item{max.lon}{maximum longitude.}
 
 \item{min.lon}{minimum longitude.}
+
+\item{plot.political.boundaries}{should political (country) boundaries be
+plotted, defaults to FALSE}
 
 \item{longitude.spacing}{interval between longitude axis tick marks.}
 
@@ -122,6 +126,10 @@ projection. Also works for longitudinal segments, e.g. just Greenland.
 \examples{
 library(ggplot2)
 ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4)
+
+# with political boundaries
+ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4, plot.political.boundaries = TRUE)
+
 ggpolar(pole = "S", max.lat = -60, min.lat = -90)
 
 ggpolar(pole = "N", max.lat = 90, min.lat = 55,
