@@ -51,10 +51,9 @@
 #' @param dot logical; shall a multiplication sign (as a dot) be placed between
 #'   the units for axis types \code{"trend"} and \code{"psd"}? Defaults to
 #'   \code{FALSE}.
-#' @param font an integer which specifies which font to use for the label
-#'   text. Defaults to the current axis label font setting of \code{par()}; see
-#'   \code{?par} for the available options. Note that the font setting has no
-#'   effect on greek and other symbols.
+#' @param font an integer which specifies which font to use for the label text;
+#'   see \code{?par} for the available options. Note that the font setting has
+#'   no effect on greek and other symbols.
 #'
 #' @return a language object to be passed on to \code{xlab}, \code{ylab}
 #'   etc. parameter settings in plot calls, or directly to \code{text} or
@@ -128,8 +127,7 @@
 #' @export
 LabelAxis <- function(label = "oxy", prefix = "", suffix = "",
                       unit = "permil", time.unit = NULL, unit.type = "standard",
-                      bracket.type = "round", dot = FALSE,
-                      font = graphics::par()$font.lab) {
+                      bracket.type = "round", dot = FALSE, font = 1) {
 
   if (!unit.type %in% c("standard", "freq", "trend", "psd")) {
     stop("'unit.type' must be one of 'standard', 'freq', 'trend' or 'psd'.",
