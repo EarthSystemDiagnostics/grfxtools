@@ -1,3 +1,11 @@
+# grfxtools 0.3.2
+
+Minor update for `LabelAxis()`: 
+
+Default font now is always 1 (plain) instead of the current setting of `par` to
+avoid the opening of a new empty graphics device when no active devce is present
+(#10).
+
 # grfxtools 0.3.1
 
 Update of `ColorPal()` function:
