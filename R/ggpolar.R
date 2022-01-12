@@ -231,18 +231,24 @@ ggpolar <- function(pole = c("N", "S"),
   }
 
   # Get map outline and crop
-  if (is.segment | (pole == "N" & plot.political.boundaries == FALSE)) {
+  if (is.segment | (pole == "N")) {
 
-    map.outline <- raster::crop(ne_land_50,
-                                raster::extent(min.lon, max.lon,
-                                               min.lat, max.lat),
-                                snap = "in")
-  } else if (is.segment | (pole == "N" & plot.political.boundaries == TRUE)) {
+    if (plot.political.boundaries) {
 
-    map.outline <- raster::crop(maptools_wrld_simpl,
-                                raster::extent(min.lon, max.lon,
-                                               min.lat, max.lat),
-                                snap = "in")
+      map.outline <- raster::crop(maptools_wrld_simpl,
+                                  raster::extent(min.lon, max.lon,
+                                                 min.lat, max.lat),
+                                  snap = "in")
+
+    } else {
+
+      map.outline <- raster::crop(ne_land_50,
+                                  raster::extent(min.lon, max.lon,
+                                                 min.lat, max.lat),
+                                  snap = "in")
+
+    }
+
   } else {
 
     # Use different map source for south polar full longitude plot
@@ -250,6 +256,7 @@ ggpolar <- function(pole = c("N", "S"),
     map.outline <- ggplot2::map_data("world", "Antarctica")
     i <- which(map.outline$lat >= min.lat & map.outline$lat <= max.lat)
     map.outline <- map.outline[i, ]
+
   }
 
   if (!length(data.layer)) {
