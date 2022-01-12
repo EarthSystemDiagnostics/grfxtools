@@ -17,48 +17,53 @@ Code adapted from Mikey Harper's plot; see
 \usage{
 ggpolar(
   pole = c("N", "S"),
+  data.layer = NULL,
   max.lat,
   min.lat,
   max.lon = 180,
   min.lon = -180,
-  plot.political.boundaries = FALSE,
   longitude.spacing = 60,
+  n.lat.labels = 4,
+  plot.political.boundaries = FALSE,
   land.fill.colour = "Grey",
   land.outline.colour = "Black",
-  n.lat.labels = 4,
+  rotate = FALSE,
   nearest.x.degrees = 5,
-  f.long.label.ticks = 20,
-  f.long.label.pos = 7,
   lat.ax.vals = NULL,
   long.ax.vals = NULL,
-  rotate = FALSE,
-  size.outer = 1,
   plt.lat.axes = TRUE,
   plt.lat.labels = plt.lat.axes,
   plt.lon.axes = TRUE,
   plt.lon.labels = plt.lon.axes,
+  f.long.label.ticks = 20,
+  f.long.label.pos = 7,
   rotate.long.labels = TRUE,
   lat.ax.labs.pos = NULL,
   ax.labs.size = 4,
-  clip = "on",
-  data.layer = NULL
+  size.outer = 1,
+  clip = "on"
 )
 }
 \arguments{
-\item{pole}{character; which pole: "N" or "S"?}
+\item{pole}{character; which pole: north ("N") or south ("S")?}
 
-\item{max.lat}{maximum latitude.}
+\item{data.layer}{optional ggplot2 layer of data onto which the polar map
+shall be plotted. Defaults to \code{NULL} which only plots the map.}
 
-\item{min.lat}{minimum latitude.}
+\item{max.lat}{maximum latitude in degree.}
 
-\item{max.lon}{maximum longitude.}
+\item{min.lat}{minimum latitude in degree.}
 
-\item{min.lon}{minimum longitude.}
+\item{max.lon}{maximum longitude in degree.}
 
-\item{plot.political.boundaries}{should political (country) boundaries be
-plotted, defaults to FALSE}
+\item{min.lon}{minimum longitude in degree.}
 
 \item{longitude.spacing}{interval between longitude axis tick marks.}
+
+\item{n.lat.labels}{approximate number of latitude tick marks.}
+
+\item{plot.political.boundaries}{logical; should political (country)
+boundaries be plotted? Defaults to FALSE.}
 
 \item{land.fill.colour}{colour to shade the land (default "Grey").}
 
@@ -67,16 +72,11 @@ plotted, defaults to FALSE}
 them. This parameter also controls the colours of the political boundaries,
 if they are switched on.}
 
-\item{n.lat.labels}{approximate number of latitude tickmarks.}
+\item{rotate}{logical; if plotting a segment of < 360 degrees longitude,
+rotate the plot so that north is up (or south is down) as seen from the
+mean longitude of the segment.}
 
 \item{nearest.x.degrees}{round latitude tickmarks to how many degrees?}
-
-\item{f.long.label.ticks}{fraction of the plotted latitude axis range by
-which the longitude ticksmarks extend behind the outer latitude axis,
-i.e. the minimum (maximum) latitude for north (south) polar plots.}
-
-\item{f.long.label.pos}{fraction of the plotted latitude axis range by
-which the longitude labels are offset from the outer latitude axis.}
 
 \item{lat.ax.vals}{manually set the latitude axis values where to plot
 latitude labels and lines. This overrides the automatic setting by
@@ -88,13 +88,6 @@ longitude labels and lines. This overrides the automatic setting by
 \code{longitude.spacing}, while the default \code{NULL} means to use the
 automatic setting.}
 
-\item{rotate}{logical; if plotting a segment of < 360 degrees longitude,
-rotate the plot so that north is up (or south is down) as seen from the
-mean longitude of the segment.}
-
-\item{size.outer}{size of the outer (and potential inner) longitude circle
-and, if plotting a segment, of the outer latitude lines.}
-
 \item{plt.lat.axes}{logical; shall latitude axes be plotted?}
 
 \item{plt.lat.labels}{logical; shall latitude labels be plotted? Per default
@@ -104,6 +97,13 @@ set to the value of \code{plt.lat.axes}.}
 
 \item{plt.lon.labels}{logical; shall longitude labels be plotted? Per default
 set to the value of \code{plt.lon.axes}.}
+
+\item{f.long.label.ticks}{fraction of the plotted latitude axis range by
+which the longitude ticksmarks extend behind the outer latitude axis,
+i.e. the minimum (maximum) latitude for north (south) polar plots.}
+
+\item{f.long.label.pos}{fraction of the plotted latitude axis range by
+which the longitude labels are offset from the outer latitude axis.}
 
 \item{rotate.long.labels}{logical; controls whether the longitude axis labels
 are rotated according to their value and the setting of \code{rotate} (the
@@ -116,13 +116,13 @@ override the default setting.}
 
 \item{ax.labs.size}{size of latitude and longitude axis labels.}
 
+\item{size.outer}{size of the outer (and potential inner) longitude circle
+and, if plotting a segment, of the outer latitude lines.}
+
 \item{clip}{Should drawing be clipped to the extent of the plot panel? A
 setting of \code{"on"} (the default) means yes, and a setting of
 \code{"off"} means no. For details, please see
 \code{\link[ggplot2]{coord_cartesian}}.}
-
-\item{data.layer}{optional ggplot2 layer of data onto which the polar map
-shall be plotted. Defaults to \code{NULL} which only plots the map.}
 }
 \description{
 Produce nicely formatted maps of the Arctic or Antarctic in polar
