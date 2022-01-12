@@ -228,7 +228,7 @@ ggpolar <- function(pole = c("N", "S"),
 
     if (plot.political.boundaries) {
 
-      map.outline <- raster::crop(maptools_wrld_simpl,
+      map.outline <- raster::crop(ne_land_50_political,
                                   raster::extent(min.lon, max.lon,
                                                  min.lat, max.lat),
                                   snap = "in")
