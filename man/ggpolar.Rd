@@ -21,7 +21,7 @@ ggpolar(
   plot.political.boundaries = FALSE,
   longitude.spacing = 60,
   land.fill.colour = "Grey",
-  country.outline.colour = "Black",
+  land.outline.colour = "Black",
   n.lat.labels = 4,
   nearest.x.degrees = 5,
   f.long.label.ticks = 20,
@@ -57,10 +57,12 @@ plotted, defaults to FALSE}
 
 \item{longitude.spacing}{interval between longitude axis tick marks.}
 
-\item{land.fill.colour}{colour to shade the land.}
+\item{land.fill.colour}{colour to shade the land (default "Grey").}
 
-\item{country.outline.colour}{colour for political boundaries (default
-"Black"); set to the same as \code{land.fill.colour} to hide them.}
+\item{land.outline.colour}{colour for the land surface outlines (default
+"Black"); set to the same colour as \code{land.fill.colour} to hide
+them. This parameter also controls the colours of the political boundaries,
+if they are switched on.}
 
 \item{n.lat.labels}{approximate number of latitude tickmarks.}
 
@@ -154,10 +156,10 @@ ggpolar(pole = "N", max.lat = 90, min.lat = 55,
                max.lon = 170, min.lon = -180,
                longitude.spacing = 33)
 
-# set country.outline.colour the same as land.fill.colour to hide political
-# boundaries
+# set land.outline.colour the same as land.fill.colour to hide land surface
+# outlines
 ggpolar(pole = "N", max.lat = 90, min.lat = 65, n.lat.labels = 4,
- country.outline.colour = "Grey")
+        land.outline.colour = "Grey")
 
 \dontrun{
 ggpolar(pole = "W", max.lat = -55, min.lat = -90)
