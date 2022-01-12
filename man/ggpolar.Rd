@@ -7,9 +7,12 @@
 Code adapted from Mikey Harper's plot; see
   https://stackoverflow.com/a/49084793.
 
-  Coastlines for polar and segment plots are taken from the "wrld_simpl"
-  dataset from package maptools, licensed under GPL-3:
-  https://cran.r-project.org/web/packages/maptools/index.html
+  Coastlines and political boundaries for complete north polar plots, and for
+  north and south polar segment plots, have been obtained from the
+  rnaturalearth package:
+  https://cran.r-project.org/web/packages/rnaturalearth/index.html
+
+  Complete south polar plots use ggplot2 data.
 }
 \usage{
 ggpolar(
