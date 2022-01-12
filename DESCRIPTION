@@ -24,7 +24,6 @@ Imports:
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2)
 Suggests:
-    rgeos (>= 0.5.2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
