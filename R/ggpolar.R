@@ -69,40 +69,36 @@
 #'
 #'   Complete south polar plots use ggplot2 data.
 #' @examples
-#' library(ggplot2)
+#'
+#' # full north polar plot
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4)
 #'
 #' # with political boundaries
-#' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4, plot.political.boundaries = TRUE)
+#' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4,
+#'         plot.political.boundaries = TRUE)
 #'
+#' # hide land surface outlines
+#' ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4,
+#'         land.outline.colour = "Grey")
+#'
+#' # full south polar plot
 #' ggpolar(pole = "S", max.lat = -60, min.lat = -90)
 #'
+#' # north polar segment plot with adjusted longitude and latitude labelling
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55,
-#'                max.lon = 0, min.lon = -80,
-#'                longitude.spacing = 15, n.lat.labels = 5) +
-#'   geom_point(aes(x = -35, y = 75, colour = "sd")) +
-#'   geom_point(aes(x = -35, y = 70, colour = "sf"))
+#'         max.lon = 0, min.lon = -80,
+#'         longitude.spacing = 15, n.lat.labels = 5)
 #'
-#'
+#' # rotate the segment
 #' ggpolar(pole = "N", max.lat = 90, min.lat = 55,
-#'                max.lon = 0, min.lon = -80,
-#'                longitude.spacing = 30,
-#'                rotate = TRUE)
-#'
-#' ggpolar(pole = "S", max.lat = -55, min.lat = -90,
-#'         max.lon = 80, min.lon = -20,
-#'         longitude.spacing = 30,
+#'         max.lon = 0, min.lon = -80,
+#'         longitude.spacing = 15, n.lat.labels = 5,
 #'         rotate = TRUE)
 #'
-#'
-#' ggpolar(pole = "N", max.lat = 90, min.lat = 55,
-#'                max.lon = 170, min.lon = -180,
-#'                longitude.spacing = 33)
-#'
-#' # set land.outline.colour the same as land.fill.colour to hide land surface
-#' # outlines
-#' ggpolar(pole = "N", max.lat = 90, min.lat = 65, n.lat.labels = 4,
-#'         land.outline.colour = "Grey")
+#' # south polar segment plot
+#' ggpolar(pole = "S", max.lat = -55, min.lat = -90,
+#'         max.lon = 80, min.lon = -20,
+#'         longitude.spacing = 30, rotate = TRUE)
 #'
 #' \dontrun{
 #' ggpolar(pole = "W", max.lat = -55, min.lat = -90)
