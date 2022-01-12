@@ -13,7 +13,7 @@ LabelAxis(
   unit.type = "standard",
   bracket.type = "round",
   dot = FALSE,
-  font = graphics::par()$font.lab
+  font = 1
 )
 }
 \arguments{
@@ -55,10 +55,9 @@ brackets, or "curly" \code{\{.\}} brackets.}
 the units for axis types \code{"trend"} and \code{"psd"}? Defaults to
 \code{FALSE}.}
 
-\item{font}{an integer which specifies which font to use for the label
-text. Defaults to the current axis label font setting of \code{par()}; see
-\code{?par} for the available options. Note that the font setting has no
-effect on greek and other symbols.}
+\item{font}{an integer which specifies which font to use for the label text;
+see \code{?par} for the available options. Note that the font setting has
+no effect on greek and other symbols.}
 }
 \value{
 a language object to be passed on to \code{xlab}, \code{ylab}
