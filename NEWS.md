@@ -1,3 +1,17 @@
+# grfxtools 0.4.0
+
+Update to `ggpolar()`:
+
+* North polar and segment plots use a new basemap from `rnaturalearth`,
+  replacing the `maptools` map, which enables to toggle the plotting of political
+  (country) borders via the new function parameter `plot.political.boundaries`
+  and no longer requires the `rgeos` hack;
+* for the sake of clarity, parameter `country.outline.colour` is renamed to
+  `land.outline.colour`, since it generally addresses both the colour of the
+  land surface outlines and the potentially plotted political boundaries;
+* in addition, new examples are provided and the documentation is revised, also
+  addressing #11.
+
 # grfxtools 0.3.2
 
 Minor update for `LabelAxis()`: 
