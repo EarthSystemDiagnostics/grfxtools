@@ -5,7 +5,7 @@
 #'
 #' @param pole character; which pole: north ("N") or south ("S")? Note that
 #'   full-longitude south polar plots only include the Antarctic main land,
-#'   irrespective of the latidude setting.
+#'   irrespective of the latitude setting.
 #' @param data.layer optional ggplot2 layer of data onto which the polar map
 #'   shall be plotted. Defaults to \code{NULL} which only plots the map.
 #' @param max.lat maximum latitude in degree.
