@@ -100,6 +100,61 @@
 #'         max.lon = 80, min.lon = -20,
 #'         longitude.spacing = 30, rotate = TRUE)
 #'
+#' # it is also possible to plot a ring segment;
+#' # additionally, there are various options to cuzstomize position and look of
+#' # axis labels etc., with a few examples shown here
+#' ggpolar(pole = "N", max.lat = 85, min.lat = 57.5,
+#'   max.lon = -10, min.lon = -75, rotate = TRUE,
+#'   lat.ax.vals = c(60, 70, 80),   # explicitly specify latitude labels
+#'   long.ax.vals = -c(20, 40, 60), # explicitly specify longitude labels
+#'   f.long.label.ticks = Inf,      # don't draw longitude lines beyond segment
+#'   f.long.label.pos = 15,         # adjust label position from segment outline
+#'   rotate.long.labels = FALSE,    # don't rotate longitude labels
+#'   lat.ax.labs.pos = -75 - c(3.5, 5, 10), # move latitude labels to left side
+#'   ax.labs.size = 4.75)                   # larger labels
+#'
+#' # ---------------------------------------------------------------------------
+#'
+#' # if you want to add points or a spatial field of data to a ggpolar plot, it
+#' # can be convenient to create that plot separately and then provide it as an
+#' # argument to ggpolar, so that it can be added to the polar plot internally:
+#'
+#' library(ggplot2)
+#'
+#' # create some dummy data
+#' nx <- 360 / 5
+#' ny <- 30 / 5
+#'
+#' lon <- seq(0, 355, length.out = nx)
+#' lat <- seq(-65, -90, length.out = ny)
+#'
+#' df <- data.frame(lon = rep(lon, times = ny), lat = rep(lat, each = nx),
+#'                  dat = runif(n = nx * ny, min = -1, max = 1))
+#'
+#' # Colorbrewer2 colour scales for plotting the "correlation" data can be
+#' # obtained directly with the respective grfxtools function
+#' colour.scale <- ColorPal("RdBu", rev = TRUE)
+#'
+#' # create ggplot for data
+#' p <- ggplot() +
+#'   geom_tile(aes(x = lon, y = lat, fill = dat),
+#'             data = df, colour = "transparent") +
+#'   scale_fill_gradientn(colours = colour.scale,
+#'                        limits = c(-1, 1),
+#'                        name = "Correlation") +
+#'   theme(legend.key.height = unit(0.75, units = "inches"),
+#'         legend.text = element_text(size = 18),
+#'         legend.title = element_text(size = 18),
+#'         text = element_text(size = 18))
+#'
+#' # plot data projected on south polar map
+#' ggpolar(pole = "S", data.layer = p,
+#'         max.lat = -60, min.lat = -90, n.lat.labels = 3,
+#'         longitude.spacing = 45,
+#'         land.fill.colour = "transparent")
+#'
+#' # ---------------------------------------------------------------------------
+#'
 #' \dontrun{
 #' ggpolar(pole = "W", max.lat = -55, min.lat = -90)
 #' ggpolar(pole = "S", max.lat = 90, min.lat = 55)
