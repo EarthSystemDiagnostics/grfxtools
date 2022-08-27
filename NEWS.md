@@ -1,3 +1,9 @@
+# grfxtools 0.4.1
+
+* In `ggpolar()` it is now possible to control the line widths of the land and
+  continental outlines and of the latitude and longitude axes via the function
+  parameters `size` and `size.axes`, respectively.
+
 # grfxtools 0.4.0
 
 Update to `ggpolar()`:

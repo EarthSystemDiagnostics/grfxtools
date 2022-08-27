@@ -51,9 +51,11 @@
 #'   labels. Per default, the labels are placed at 0 E (180 W) for north (south)
 #'   polar plots or at the mean longitude of a segment; use this parameter to
 #'   override the default setting.
-#' @param ax.labs.size size of latitude and longitude axis labels.
-#' @param size.outer size of the outer (and potential inner) longitude circle
-#'   and, if plotting a segment, of the outer latitude lines.
+#' @param ax.labs.size size in mm of latitude and longitude axis labels.
+#' @param size size in mm of the continental and land outlines.
+#' @param size.axes size in mm of the latitude and longitude axes.
+#' @param size.outer size in mm of the outer (and potential inner) longitude
+#'   circle and, if plotting a segment, of the outer latitude lines.
 #' @param clip Should drawing be clipped to the extent of the plot panel? A
 #'   setting of \code{"on"} (the default) means yes, and a setting of
 #'   \code{"off"} means no. For details, please see
@@ -173,7 +175,8 @@ ggpolar <- function(pole = c("N", "S"), data.layer = NULL, max.lat, min.lat,
                     plt.lon.axes = TRUE, plt.lon.labels = plt.lon.axes,
                     f.long.label.ticks = 20, f.long.label.pos = 7,
                     rotate.long.labels = TRUE, lat.ax.labs.pos = NULL,
-                    ax.labs.size = 4, size.outer = 1, clip = "on") {
+                    ax.labs.size = 4, size = 0.5, size.axes = 0.25,
+                    size.outer = 1, clip = "on") {
 
   pole <- match.arg(pole, choices = c("N", "S"))
 
@@ -312,7 +315,7 @@ ggpolar <- function(pole = c("N", "S"), data.layer = NULL, max.lat, min.lat,
     ggplot2::geom_polygon(data = map.outline,
                           ggplot2::aes(x = .data$long, y = .data$lat,
                                        group = .data$group),
-                          fill = land.fill.colour,
+                          fill = land.fill.colour, size = size,
                           colour = land.outline.colour) +
 
     ggplot2::coord_map("ortho",
@@ -347,7 +350,7 @@ ggpolar <- function(pole = c("N", "S"), data.layer = NULL, max.lat, min.lat,
     p <- p + ggplot2::geom_line(data = lat.lines,
                                 ggplot2::aes(y = .data$lat, x = .data$long,
                                              group = .data$lat),
-                                size = 0.25, linetype = "dashed",
+                                size = size.axes, linetype = "dashed",
                                 colour = "black")
   }
   # Lat axis labels
@@ -370,7 +373,7 @@ ggpolar <- function(pole = c("N", "S"), data.layer = NULL, max.lat, min.lat,
     p <- p + ggplot2::geom_segment(
                ggplot2::aes(y = long.line.strt, yend = long.line.end,
                             x = long.ax.vals, xend = long.ax.vals),
-               linetype = "dashed", colour = "black", size = 0.25)
+               linetype = "dashed", colour = "black", size = size.axes)
   }
   # Longitude axis labels
   if (plt.lon.labels) {

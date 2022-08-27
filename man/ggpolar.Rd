@@ -40,6 +40,8 @@ ggpolar(
   rotate.long.labels = TRUE,
   lat.ax.labs.pos = NULL,
   ax.labs.size = 4,
+  size = 0.5,
+  size.axes = 0.25,
   size.outer = 1,
   clip = "on"
 )
@@ -116,10 +118,14 @@ labels. Per default, the labels are placed at 0 E (180 W) for north (south)
 polar plots or at the mean longitude of a segment; use this parameter to
 override the default setting.}
 
-\item{ax.labs.size}{size of latitude and longitude axis labels.}
+\item{ax.labs.size}{size in mm of latitude and longitude axis labels.}
 
-\item{size.outer}{size of the outer (and potential inner) longitude circle
-and, if plotting a segment, of the outer latitude lines.}
+\item{size}{size in mm of the continental and land outlines.}
+
+\item{size.axes}{size in mm of the latitude and longitude axes.}
+
+\item{size.outer}{size in mm of the outer (and potential inner) longitude
+circle and, if plotting a segment, of the outer latitude lines.}
 
 \item{clip}{Should drawing be clipped to the extent of the plot panel? A
 setting of \code{"on"} (the default) means yes, and a setting of
