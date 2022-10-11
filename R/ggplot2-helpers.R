@@ -45,7 +45,7 @@ reverselog_trans <- function(base = exp(1)) {
 #'                                nrow = 2, ncol = 2)
 #' gg
 #' @export
-facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
+facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol, scales = "free") {
 
   built.plot <- ggplot2::ggplot_build(ggplot.obj)
 
@@ -64,7 +64,7 @@ facet_wrap_paginate_auto <- function(ggplot.obj, facets, nrow, ncol) {
     ggplot.obj +
       ggforce::facet_wrap_paginate(
         facets,
-        scales = "free_y",
+        scales = scales,
         labeller = ggplot2::labeller(.multi_line = FALSE),
         ncol = ncol,
         nrow = nrow,
