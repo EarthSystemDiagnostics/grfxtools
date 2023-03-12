@@ -45,24 +45,24 @@ library(grfxtools)
 ```
 
 * Plot a full north polar plot:
-  ```{r}
+```{r}
   ggpolar(pole = "N", max.lat = 90, min.lat = 55, n.lat.labels = 4)
-  ```
+```
 
 * Plot a full south polar plot:
-  ```{r}
+```{r}
   ggpolar(pole = "S", max.lat = -60, min.lat = -90)
-  ```
+```
 
 * Plot a segment with some locations marked and labelled:
-  ```{r}
+```{r}
   df <- data.frame(site = c("A", "B"), x = rep(-35, 2), y = c(70, 75))
   ggpolar(pole = "N", max.lat = 90, min.lat = 55,
           max.lon = 0, min.lon = -80,
           longitude.spacing = 15, n.lat.labels = 5) +
     geom_point(aes(x, y, colour = site, group = site), data = df) +
     scale_colour_manual(values = c("red", "blue"), name = "Site")
-  ```
+```
 
   Note that segment plots can easily be rotated such that the line along
   the mean longitude of the segment is vertical by setting `rotate = TRUE`.
@@ -71,7 +71,7 @@ library(grfxtools)
   be convenient to create that plot separately and then provide it as an argument
   to ggpolar, so that it can be added to the polar plot internally:
 
-  ```{r}
+```{r}
   # create some dummy data
   nx <- 360 / 5
   ny <- 30 / 5
@@ -103,5 +103,5 @@ library(grfxtools)
           max.lat = -60, min.lat = -90, n.lat.labels = 3,
           longitude.spacing = 45,
           land.fill.colour = "transparent")
-  ```
+```
 
