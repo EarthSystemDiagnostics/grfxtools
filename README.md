@@ -77,6 +77,7 @@ the mean longitude of the segment is vertical by setting
 
 ``` r
   # create some dummy data
+  set.seed(20230720)
   nx <- 360 / 5
   ny <- 30 / 5
 
