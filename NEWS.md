@@ -1,3 +1,7 @@
+# grfxtools 0.4.2
+
+* Bugfix to PlotPairwiseCorrelations replacing tidyr::gather with tidyr::pivot_longer
+
 # grfxtools 0.4.1
 
 * In `ggpolar()` it is now possible to control the line widths of the land and
