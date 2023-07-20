@@ -45,7 +45,7 @@ PlotPairwiseCorrelations <- function(M,
   c.m[lower.tri(c.m, diag = TRUE)] <- NA
   c.m <- tibble::as_tibble(c.m)
   c.m <- dplyr::mutate(c.m, fac.a = colnames(M))
-  c.m <- tidyr::pivot_longer(c.m, tidyr::num_range(prefix = "", range = 1:ncol(M)),
+  c.m <- tidyr::pivot_longer(c.m, 1:ncol(M),
                              names_to = "fac.b", values_to = "Correlation")
   c.m <- dplyr::mutate(c.m,
                        fac.a = factor(.data$fac.a, levels = colnames(M),
