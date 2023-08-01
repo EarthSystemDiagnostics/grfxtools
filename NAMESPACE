@@ -3,6 +3,7 @@
 export(ColorPal)
 export(ErrorBars)
 export(LabelAxis)
+export(MinorTick)
 export(Par)
 export(PlotPairwiseCorrelations)
 export(PlotStamp)
