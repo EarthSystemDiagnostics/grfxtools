@@ -1,13 +1,26 @@
 Package: grfxtools
 Title: An R package of tools to assist with various plotting
     tasks
-Version: 0.4.2
-Author: Thomas Muench [aut, cre], Andrew Dolman [aut]
-Maintainer: Thomas Muench <thomas.muench@awi.de>
+Version: 0.5.0
+Authors@R: c(
+    person("Thomas", "Muench", email = "thomas.muench@awi.de",
+           role = c("aut", "cre")),
+    person("Andrew", "Dolman", role = "aut"),
+    person("Thomas", "Laepple", role = "aut"),
+    person("Dewey", "Dunnington", role = "cph",
+           comment = "Author of included original code for AddNorthArrow
+	   function"),
+    person("Frank E", "Harrel Jr", role = "cph",
+           comment = "Author of included original code for MinorTick function"),
+    person("R Core Team", "", role = "cph",
+           comment = "Author of included original code for Legend function"),
+    person("Andy", "South", role = "cph",
+           comment = "Author of rnaturalearth package which provides the world
+	   map data for ggpolar function."))
 Description: This package contains various functions to
     assist with the plotting of scientific results incl. geoscientific
     maps; mostly applying tidyverse/ggplot2 functionality.
-License: file LICENSE
+License: GPL (>= 2)
 URL: https://github.com/EarthSystemDiagnostics/grfxtools
 BugReports:
     https://github.com/EarthSystemDiagnostics/grfxtools/issues
@@ -28,4 +41,4 @@ Suggests:
     rnaturalearth (>= 0.1.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
