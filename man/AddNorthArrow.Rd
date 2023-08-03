@@ -4,7 +4,8 @@
 \alias{AddNorthArrow}
 \title{Plot north arrow}
 \source{
-<https://CRAN.R-project.org/package=prettymapr>
+Adapted from
+  <https://CRAN.R-project.org/package=prettymapr>
 }
 \usage{
 AddNorthArrow(
@@ -14,7 +15,9 @@ AddNorthArrow(
   lwd = 1,
   border = "black",
   cols = c("white", "black"),
-  text.col = "black"
+  col.text = "black",
+  cex.text = 1,
+  vadj.text = 0.5
 )
 }
 \arguments{
@@ -24,7 +27,7 @@ AddNorthArrow(
 \item{padin}{a vector of length 2 determining the distance in inches between
 the scalebar and the edge of the plottable area.}
 
-\item{scale}{scale the default north arrow to make it bigger or smaller.}
+\item{scale}{scale the north arrow to make it bigger or smaller.}
 
 \item{lwd}{the line width outlining the north arrow.}
 
@@ -33,11 +36,20 @@ the scalebar and the edge of the plottable area.}
 \item{cols}{a vector of length 2 determining the two colors to be drawn for
 the north arrow.}
 
-\item{text.col}{color of the "N".}
+\item{col.text}{color of the text label.}
+
+\item{cex.text}{character expansion factor for the text label. This is an
+absolute measure, not scaled by \code{par("cex")} or by setting
+\code{par("mfrow")} or \code{par("mfcol")}.}
+
+\item{vadj.text}{value in [0, 1] to specify the vertical adjustment of the
+text label relative to the north arrow, with 0 for top, 1 for bottom, and
+0.5 for centered position. On most devices values outside [0, 1] will also
+work.}
 }
 \description{
-Plot a north arrow (pointing directly "up") positioned based on current plot
-extents.
+Plot a north arrow (pointing directly "up" and with label "N") positioned
+based on current plot extents.
 }
 \examples{
 
@@ -46,5 +58,5 @@ AddNorthArrow()
 
 }
 \author{
-Dewey Dunnington
+Dewey Dunnington, Thomas Münch
 }
