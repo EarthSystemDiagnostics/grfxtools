@@ -352,14 +352,14 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
              (if (merge && do.lines) 
                 xt - (seg.len/2) * xchar
               else xt)[ok]
-           } else {## <-
+           } else {
              (if (merge && do.lines) 
                 xt - (seg.len) * xchar - (pch.xoff) * xchar
               else xt)[ok]
            })
-    ## tmuench, 2023/08/23 ->
+
     if (end.pch)
-      x2 <- xt[ok] + (pch.xoff) * xchar
+      x2 <- (xt + (pch.xoff) * xchar)[ok]
     ## <-
     y1 <- yt[ok]
     if (trace) 
