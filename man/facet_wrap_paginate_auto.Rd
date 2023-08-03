@@ -4,7 +4,7 @@
 \alias{facet_wrap_paginate_auto}
 \title{Plot all ggforce::facet_wrap_paginate pages}
 \usage{
-facet_wrap_paginate_auto(ggplot.obj, facets, nrow, ncol)
+facet_wrap_paginate_auto(ggplot.obj, facets, nrow, ncol, scales = "free")
 }
 \arguments{
 \item{ggplot.obj}{a ggplot2 object.}
