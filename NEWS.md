@@ -1,3 +1,7 @@
+# grfxtools 0.5.1
+
+* Added dependency on `mapproj` package (see #15).
+
 # grfxtools 0.5.0
 
 * New function `AddNorthArrow()` to plot on base maps an arrow pointing towards
@@ -8,7 +12,7 @@
 
 # grfxtools 0.4.2
 
-* Bugfix to PlotPairwiseCorrelations replacing tidyr::gather with tidyr::pivot_longer
+* Bugfix to PlotPairwiseCorrelations replacing `tidyr::gather` with `tidyr::pivot_longer`
 
 # grfxtools 0.4.1
 

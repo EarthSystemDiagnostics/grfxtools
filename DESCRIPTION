@@ -1,7 +1,7 @@
 Package: grfxtools
 Title: An R package of tools to assist with various plotting
     tasks
-Version: 0.5.0
+Version: 0.5.1
 Authors@R: c(
     person("Thomas", "Muench", email = "thomas.muench@awi.de",
            role = c("aut", "cre")),
@@ -30,6 +30,7 @@ Imports:
     dplyr (>= 1.0.2),
     ggforce (>= 0.3.1),
     ggplot2 (>= 3.2.1),
+    mapproj,
     raster (>= 3.0.7),
     RColorBrewer (>= 1.1.2),
     rlang,
