@@ -101,8 +101,8 @@ MinorTick <- function(n = 2, side = 1, tick.ratio = 0.5, col = "black",
 
   ax <- function(w, n, tick.ratio, side, col, lwd, extend, ...) {
     tick.pos <- if (w == "x") 
-                  par("xaxp")
-                else par("yaxp")
+                  graphics::par("xaxp")
+                else graphics::par("yaxp")
 
     distance.between.major <- (tick.pos[2] - tick.pos[1]) / tick.pos[3]
     low.major <- low.minor <- tick.pos[1]
@@ -121,8 +121,8 @@ MinorTick <- function(n = 2, side = 1, tick.ratio = 0.5, col = "black",
                        hi.major + extension)
     }
 
-    axis(side, minor.ticks, lwd = 0, lwd.ticks = lwd, labels = FALSE,
-         tcl = par("tcl") * tick.ratio, col = col, ...)
+    graphics::axis(side, minor.ticks, lwd = 0, lwd.ticks = lwd, labels = FALSE,
+                   tcl = graphics::par("tcl") * tick.ratio, col = col, ...)
   }
   if (n > 1) {
     if (side == 1 || side == 3) {

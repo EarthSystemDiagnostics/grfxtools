@@ -36,13 +36,13 @@
 #' Legend("topright", legend = "line with points from `Legend`", bty = "n",
 #'        lty = 1, pch = 19, end.pch = TRUE, pch.xoff = 0.6, x.intersp = 1.5)
 #' @export
-Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
+Legend <- function (x, y = NULL, legend, fill = NULL, col = graphics::par("col"),
                     border = "black", lty, lwd, pch, angle = 45, density = NULL,
-                    bty = "o", bg = par("bg"), box.lwd = par("lwd"),
-                    box.lty = par("lty"), box.col = par("fg"), pt.bg = NA,
+                    bty = "o", bg = graphics::par("bg"), box.lwd = graphics::par("lwd"),
+                    box.lty = graphics::par("lty"), box.col = graphics::par("fg"), pt.bg = NA,
                     cex = 1, pt.cex = cex, pt.lwd = lwd, xjust = 0, yjust = 1,
                     x.intersp = 1, y.intersp = 1, adj = c(0, 0.5),
-                    text.width = NULL, text.col = par("col"), text.font = NULL,
+                    text.width = NULL, text.col = graphics::par("col"), text.font = NULL,
                     merge = do.lines && has.pch, trace = FALSE, plot = TRUE,
                     ncol = 1, horiz = FALSE, title = NULL, inset = 0, xpd,
                     title.col = text.col[1], title.adj = 0.5,
@@ -56,17 +56,17 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
   }
   mfill <- !missing(fill) || !missing(density)
   if (!missing(xpd)) {
-    op <- par("xpd")
-    on.exit(par(xpd = op))
-    par(xpd = xpd)
+    op <- graphics::par("xpd")
+    on.exit(graphics::par(xpd = op))
+    graphics::par(xpd = xpd)
   }
   text.font <- if (is.null(text.font)) 
-                 par("font")
+                 graphics::par("font")
                else text.font
-  title <- as.graphicsAnnot(title)
+  title <- grDevices::as.graphicsAnnot(title)
   if (length(title) > 1) 
     stop("invalid 'title'")
-  legend <- as.graphicsAnnot(legend)
+  legend <- grDevices::as.graphicsAnnot(legend)
   if (any(sapply(legend, is.language))) 
     legend <- as.expression(legend)
   n.leg <- length(legend)
@@ -77,7 +77,7 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
                            "left", "topleft", "top", "topright", "right", "center"))
           else NA
   if (is.na(auto)) {
-    xy <- xy.coords(x, y, setLab = FALSE)
+    xy <- grDevices::xy.coords(x, y, setLab = FALSE)
     x <- xy$x
     y <- xy$y
     nx <- length(x)
@@ -85,10 +85,10 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
       stop("invalid coordinate lengths")
   }
   else nx <- 0
-  reverse.xaxis <- par("xaxp")[1] > par("xaxp")[2]
-  reverse.yaxis <- par("yaxp")[1] > par("yaxp")[2]
-  xlog <- par("xlog")
-  ylog <- par("ylog")
+  reverse.xaxis <- graphics::par("xaxp")[1] > graphics::par("xaxp")[2]
+  reverse.yaxis <- graphics::par("yaxp")[1] > graphics::par("yaxp")[2]
+  xlog <- graphics::par("xlog")
+  ylog <- graphics::par("ylog")
   cex <- rep(cex, length.out = n.leg)
   x.intersp <- rep(x.intersp, length.out = n.leg)
   seg.len <- rep(seg.len, length.out = n.leg)
@@ -104,7 +104,7 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
       top <- 10^top
       b <- 10^b
     }
-    rect(left, top, r, b, angle = angle, density = density, 
+    graphics::rect(left, top, r, b, angle = angle, density = density, 
          ...)
   }
   segments2 <- function(x1, y1, dx, dy, ...) {
@@ -118,21 +118,21 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
       y1 <- 10^y1
       y2 <- 10^y2
     }
-    segments(x1, y1, x2, y2, ...)
+    graphics::segments(x1, y1, x2, y2, ...)
   }
   points2 <- function(x, y, ...) {
     if (xlog) 
       x <- 10^x
     if (ylog) 
       y <- 10^y
-    points(x, y, ...)
+    graphics::points(x, y, ...)
   }
   text2 <- function(x, y, ...) {
     if (xlog) 
       x <- 10^x
     if (ylog) 
       y <- 10^y
-    text(x, y, ...)
+    graphics::text(x, y, ...)
   }
   colwise <- function(x, n, ncol, n.legpercol, fun, reverse = FALSE) {
     xmat <- matrix(c(rep(x, length.out = n), rep(0L, n.legpercol * 
@@ -165,20 +165,20 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
                    1
                  }
                  else ceiling(n.leg/ncol)
-  Cex <- cex * par("cex")
+  Cex <- cex * graphics::par("cex")
   if (is.null(text.width)) 
-    text.width <- max(abs(mapply(strwidth, legend, cex = cex, 
+    text.width <- max(abs(mapply(graphics::strwidth, legend, cex = cex, 
                                  font = text.font, MoreArgs = list(units = "user"))))
   else if ((length(text.width) > 1L && any(is.na(text.width))) || 
            (all(!is.na(text.width)) && (!is.numeric(text.width) || 
                                         any(text.width < 0)))) 
     stop("'text.width' must be numeric, >= 0, or a scalar NA")
   if (auto.text.width <- all(is.na(text.width))) {
-    text.width <- abs(mapply(strwidth, legend, cex = cex, 
+    text.width <- abs(mapply(graphics::strwidth, legend, cex = cex, 
                              font = text.font, MoreArgs = list(units = "user")))
     ncol <- ceiling(n.leg/n.legpercol)
   }
-  xyc <- xyinch(par("cin"), warn.log = FALSE)
+  xyc <- graphics::xyinch(graphics::par("cin"), warn.log = FALSE)
   xc <- Cex * xyc[1L]
   yc <- Cex * xyc[2L]
   if (any(xc < 0)) 
@@ -189,12 +189,12 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
   yextra <- rowwise(yc, n = n.leg, ncol = ncol, n.legpercol = n.legpercol, 
                     fun = function(x) max(abs(x)), reverse = reverse.yaxis) * 
     (y.intersp - 1)
-  ymax <- sign(yc[1]) * max(abs(yc)) * max(1, mapply(strheight, 
+  ymax <- sign(yc[1]) * max(abs(yc)) * max(1, mapply(graphics::strheight, 
                                                      legend, cex = cex, font = text.font, MoreArgs = list(units = "user"))/yc)
   ychar <- yextra + ymax
-  ymaxtitle <- title.cex * par("cex") * xyc[2L] * max(1, strheight(title, 
+  ymaxtitle <- title.cex * graphics::par("cex") * xyc[2L] * max(1, graphics::strheight(title, 
                                                                    cex = title.cex, font = title.font, units = "user")/(title.cex * 
-                                                                                                                        par("cex") * xyc[2L]))
+                                                                                                                        graphics::par("cex") * xyc[2L]))
   ychartitle <- yextra[1] + ymaxtitle
   if (trace) 
     catn("  xchar=", fv(xchar), "; (yextra, ychar)=", fv(yextra, 
@@ -268,9 +268,9 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
     if (do.lines) 
       w0 <- w0 + (seg.lenCol + x.off) * xch1
     w <- sum(w0) + 0.5 * xch1[ncol]
-    if (!is.null(title) && (abs(tw <- strwidth(title, units = "user", 
+    if (!is.null(title) && (abs(tw <- graphics::strwidth(title, units = "user", 
                                                cex = title.cex, font = title.font) + 0.5 * title.cex * 
-                                      par("cex") * xyc[1L])) > abs(w)) {
+                                      graphics::par("cex") * xyc[1L])) > abs(w)) {
       xextra <- (tw - w)/2
       w <- tw
     }
@@ -279,7 +279,7 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
       top <- y + (1 - yjust) * h
     }
     else {
-      usr <- par("usr")
+      usr <- graphics::par("usr")
       inset <- rep_len(inset, 2)
       insetx <- inset[1L] * (usr[2L] - usr[1L])
       left <- switch(auto, bottomright = , topright = , 
@@ -318,7 +318,7 @@ Legend <- function (x, y = NULL, legend, fill = NULL, col = par("col"),
   if (plot && (has.pch || do.lines)) 
     col <- rep_len(col, n.leg)
   if (missing(lwd) || is.null(lwd)) 
-    lwd <- par("lwd")
+    lwd <- graphics::par("lwd")
   if (do.lines) {
     if (missing(lty) || is.null(lty)) 
       lty <- 1
