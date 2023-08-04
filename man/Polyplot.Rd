@@ -35,5 +35,5 @@ lines(x, lwd = 2)
 \code{\link[graphics]{polygon}}
 }
 \author{
-Thomas Münch
+Thomas Laepple, Thomas Münch
 }

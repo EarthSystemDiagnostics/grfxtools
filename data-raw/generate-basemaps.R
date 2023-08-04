@@ -1,3 +1,7 @@
+# World map data taken from package rnaturalearth:
+# MIT
+# Copyright (C) 2016 Andy South
+
 # create basemaps
 
 ne_land_50 <- rnaturalearth::ne_download(scale = 50, type = "land",

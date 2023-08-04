@@ -1,3 +1,11 @@
+# grfxtools 0.5.0
+
+* New function `AddNorthArrow()` to plot on base maps an arrow pointing towards
+  north together with a label.
+* New function `Legend()` which is a custom version of `graphics::legend()`
+  introducing the option to have point symbols at both ends of legend lines.
+* New function `MinorTick()` to add minor tick marks to an existing base plot.
+
 # grfxtools 0.4.2
 
 * Bugfix to PlotPairwiseCorrelations replacing tidyr::gather with tidyr::pivot_longer

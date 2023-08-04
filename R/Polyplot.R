@@ -12,7 +12,7 @@
 #' @param alpha opacity factor for \code{col} within [0,1].
 #' @param ... additional parameters which are passed to \code{polygon}.
 #' @seealso \code{\link[graphics]{polygon}}
-#' @author Thomas Münch
+#' @author Thomas Laepple, Thomas Münch
 #' @examples
 #' x <- 1 : 10
 #' plot(x, type = "n", xlab = "x", ylab = "y")

@@ -1,0 +1,8 @@
+The grfxtools package as a whole is distributed under GPL (>= 2). The grfxtools
+package includes other open source software components. The following is a list
+of these components:
+
+* AddNorthArrow: Code adapted from function addnortharrow in package prettymapr: GPL-2
+* Legend: Code adapted from function legend in package graphics (R base): GPL-2 | GPL-3
+* MinorTick: Code adapted from function minor.tick in package Hmisc: GPL (>=2)
+* World map data used in ggpolar taken from rnaturalearth package: MIT
