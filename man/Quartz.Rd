@@ -93,7 +93,9 @@ visually more appealing plots.
 \examples{
 
 # Create an empty on-screen quartz device
+\dontrun{
 Quartz()
+}
 
 # Store empty plot in pdf format in local directory
 \dontrun{

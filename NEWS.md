@@ -1,3 +1,8 @@
+# grfxtools 0.5.2
+* fix warning about undocumented argument scales in facet_wrap_paginate_auto
+* fix CMD Check Error in Quartz examples due to graphics device being used in example 
+* add data-raw to .Rbuildignore
+
 # grfxtools 0.5.1
 
 * Added dependency on `mapproj` package (see #15).

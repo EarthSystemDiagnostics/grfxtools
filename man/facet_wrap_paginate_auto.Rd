@@ -9,11 +9,19 @@ facet_wrap_paginate_auto(ggplot.obj, facets, nrow, ncol, scales = "free")
 \arguments{
 \item{ggplot.obj}{a ggplot2 object.}
 
-\item{facets}{faceting formula; see \code{\link[ggplot2]{facet_wrap}}.}
+\item{facets}{A set of variables or expressions quoted by \code{\link[ggplot2:vars]{vars()}}
+and defining faceting groups on the rows or columns dimension.
+The variables can be named (the names are passed to \code{labeller}).
 
-\item{nrow}{number of columns per page.}
+For compatibility with the classic interface, can also be a
+formula or character vector. Use either a one sided formula, \code{~a + b},
+or a character vector, \code{c("a", "b")}.}
 
-\item{ncol}{number of rows per page.}
+\item{nrow, ncol}{Number of rows and columns}
+
+\item{scales}{Should scales be fixed (\code{"fixed"}, the default),
+free (\code{"free"}), or free in one dimension (\code{"free_x"},
+\code{"free_y"})?}
 }
 \value{
 A list of ggplot2 objects.

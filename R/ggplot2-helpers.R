@@ -27,9 +27,7 @@ reverselog_trans <- function(base = exp(1)) {
 #' automatically calculates the required number of pages.
 #'
 #' @param ggplot.obj a ggplot2 object.
-#' @param facets faceting formula; see \code{\link[ggplot2]{facet_wrap}}.
-#' @param nrow number of columns per page.
-#' @param ncol number of rows per page.
+#' @inheritParams ggforce::facet_wrap_paginate
 #' @return A list of ggplot2 objects.
 #' @examples
 #' library(ggplot2)
