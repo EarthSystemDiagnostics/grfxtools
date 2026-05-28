@@ -29,10 +29,11 @@ Depends:
 Imports:
     dplyr (>= 1.0.2),
     ggforce (>= 0.3.1),
-    ggplot2 (>= 3.2.1),
+    ggplot2 (>= 3.3.0),
     mapproj,
     plotly (>= 4.9.0),
     raster (>= 3.0.7),
+    sf (>= 0.9),
     RColorBrewer (>= 1.1.2),
     rlang,
     scales (>= 1.1.1),

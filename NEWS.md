@@ -7,6 +7,11 @@
 * New helper `SetupPlotlySave()` to install the Python kaleido dependency needed
   for static image export.
 * Added `plotly` to package Imports; `reticulate` added to Suggests.
+* New function `gg_map()` to create static projected maps using ggplot2 and sf,
+  supporting the same projections as `MapPlotly()` plus any PROJ string or EPSG
+  code. Returns a ggplot object — extend with any ggplot2 layer.
+* Added `sf (>= 0.9)` to package Imports; bumped `ggplot2` requirement to
+  `>= 3.3.0`.
 
 # grfxtools 0.5.2
 * fix warning about undocumented argument scales in facet_wrap_paginate_auto
