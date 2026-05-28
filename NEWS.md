@@ -7,6 +7,9 @@
 * New helper `SetupPlotlySave()` to install the Python kaleido dependency needed
   for static image export.
 * Added `plotly` to package Imports; `reticulate` added to Suggests.
+* New function `gg_map_rast()` — raster-based alternative to `gg_map()` using
+  `terra::project()` for artefact-free antimeridian handling. Requires the
+  `terra` package (added to Suggests).
 * New function `gg_map()` to create static projected maps using ggplot2 and sf,
   supporting the same projections as `MapPlotly()` plus any PROJ string or EPSG
   code. Returns a ggplot object — extend with any ggplot2 layer.
