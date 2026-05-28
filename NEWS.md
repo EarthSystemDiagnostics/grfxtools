@@ -1,3 +1,13 @@
+# grfxtools (development version)
+
+* New function `MapPlotly()` to create interactive maps as plotly htmlwidgets,
+  supporting many projections with flexible centring on any coordinate.
+* New helper `SaveMapPlotly()` to export plotly maps as static images (PNG, SVG,
+  PDF, WebP).
+* New helper `SetupPlotlySave()` to install the Python kaleido dependency needed
+  for static image export.
+* Added `plotly` to package Imports; `reticulate` added to Suggests.
+
 # grfxtools 0.5.2
 * fix warning about undocumented argument scales in facet_wrap_paginate_auto
 * fix CMD Check Error in Quartz examples due to graphics device being used in example 
