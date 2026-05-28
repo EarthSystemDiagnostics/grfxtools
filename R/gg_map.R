@@ -48,13 +48,13 @@
 #'
 #' Any other value for \code{proj} is passed directly to \code{sf::st_crs()}.
 #'
-#' When \code{focal.lon != 0}, the basemap is pre-processed with
-#' \code{sf::st_shift_longitude()} to avoid horizontal-line artefacts caused
-#' by polygons (e.g. Russia, Antarctica) that span the \eqn{\pm180\deg}
-#' antimeridian in WGS84. Non-sf data layers added with \code{+} (e.g.
-#' \code{geom_point}) can still use standard \eqn{-180/180} lon/lat values
-#' because \code{coord_sf} reprojects them automatically via
-#' \code{default_crs = st_crs(4326)}.
+#' The basemap is clipped to \code{lon.range} / \code{lat.range} (clamped
+#' just inside \eqn{\pm179.9\deg}) before projection. This splits any polygon
+#' that crosses the \eqn{\pm180\deg} antimeridian (e.g. Russia, Fiji) into
+#' separate pieces, preventing the horizontal-line artefacts that otherwise
+#' appear on maps centred away from the prime meridian.
+#' Non-sf data layers (e.g. \code{geom_point}) always use standard
+#' \eqn{-180/180} lon/lat values.
 #'
 #' @return A \code{ggplot2} object. Add data or style layers with \code{+} as
 #'   usual. Non-sf layers using \code{x}/\code{y} aesthetics (e.g.
@@ -63,7 +63,7 @@
 #'
 #' @importFrom ggplot2 ggplot geom_sf coord_sf theme_void theme element_rect
 #'   element_blank element_line
-#' @importFrom sf st_crs st_shift_longitude
+#' @importFrom sf st_crs st_crop st_bbox st_make_valid
 #' @export
 #' @examples
 #' # Mollweide (default)
@@ -121,13 +121,28 @@ gg_map <- function(
   }
 
   crs   <- .gg_map_crs(proj, focal.lat, focal.lon)
-  world <- rnaturalearth::ne_countries(scale = resolution, returnclass = "sf")
+  # Clip to the visible extent, clamping just inside ±180° on the longitude
+  # axis. This forces polygons that cross the antimeridian (e.g. Russia,
+  # Fiji) to be split into separate pieces before projection, eliminating
+  # the horizontal-line artefacts that coord_sf draws when it connects the
+  # two sides of such a polygon across the map.
+  clip_box <- sf::st_bbox(
+    c(xmin = max(lon.range[1], -179.9),
+      xmax = min(lon.range[2],  179.9),
+      ymin = lat.range[1],
+      ymax = lat.range[2]),
+    crs = sf::st_crs(4326)
+  )
 
-  # Shift longitudes to [0, 360] to avoid horizontal-line artefacts on maps
-  # centred away from the prime meridian (e.g. Russia spanning +-180 deg).
-  if (focal.lon != 0) {
-    world <- sf::st_shift_longitude(world)
-  }
+  # st_make_valid and st_crop both fail under s2 spherical geometry on some
+  # Natural Earth polygon edges. Disable s2 for these operations and restore
+  # the previous setting afterwards.
+  prev_s2 <- suppressMessages(sf::sf_use_s2(FALSE))
+  on.exit(suppressMessages(sf::sf_use_s2(prev_s2)), add = TRUE)
+
+  world <- suppressWarnings(suppressMessages(sf::st_crop(sf::st_make_valid(
+    rnaturalearth::ne_countries(scale = resolution, returnclass = "sf")
+  ), clip_box)))
 
   # Build the land layer(s).
   # borders = TRUE:  single geom_sf with country outlines.
@@ -141,8 +156,10 @@ gg_map <- function(
                        linewidth = 0.3)
     )
   } else {
-    coast <- rnaturalearth::ne_coastline(scale = resolution, returnclass = "sf")
-    if (focal.lon != 0) coast <- sf::st_shift_longitude(coast)
+    coast <- suppressWarnings(suppressMessages(sf::st_crop(
+      rnaturalearth::ne_coastline(scale = resolution, returnclass = "sf"),
+      clip_box
+    )))
     land_layers <- list(
       ggplot2::geom_sf(data = world,
                        fill = land.colour, colour = NA),

@@ -86,13 +86,13 @@ Projections centred on both \code{focal.lat} and \code{focal.lon}:
 
 Any other value for \code{proj} is passed directly to \code{sf::st_crs()}.
 
-When \code{focal.lon != 0}, the basemap is pre-processed with
-\code{sf::st_shift_longitude()} to avoid horizontal-line artefacts caused
-by polygons (e.g. Russia, Antarctica) that span the \eqn{\pm180\deg}
-antimeridian in WGS84. Non-sf data layers added with \code{+} (e.g.
-\code{geom_point}) can still use standard \eqn{-180/180} lon/lat values
-because \code{coord_sf} reprojects them automatically via
-\code{default_crs = st_crs(4326)}.
+The basemap is clipped to \code{lon.range} / \code{lat.range} (clamped
+just inside \eqn{\pm179.9\deg}) before projection. This splits any polygon
+that crosses the \eqn{\pm180\deg} antimeridian (e.g. Russia, Fiji) into
+separate pieces, preventing the horizontal-line artefacts that otherwise
+appear on maps centred away from the prime meridian.
+Non-sf data layers (e.g. \code{geom_point}) always use standard
+\eqn{-180/180} lon/lat values.
 }
 \examples{
 # Mollweide (default)
