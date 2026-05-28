@@ -18,10 +18,14 @@
 #' @param land.colour fill colour for land (default \code{"grey80"}).
 #' @param ocean.colour background colour for the ocean (default
 #'   \code{"#d8e8f0"}).
-#' @param border.colour colour for country borders (default \code{"grey40"}).
+#' @param border.colour colour for country borders or, when
+#'   \code{borders = FALSE}, the coastline outline (default \code{"grey40"}).
 #' @param resolution resolution of the Natural Earth basemap: \code{110}
 #'   (coarse, ~1:110m, default), \code{50} (medium), or \code{10} (fine).
 #'   Requires the \pkg{rnaturalearth} package.
+#' @param borders logical; draw country borders? Default \code{TRUE}. Set to
+#'   \code{FALSE} for a physical outline of land masses only (country polygons
+#'   are dissolved into a single layer).
 #' @param graticule logical; draw a graticule (lat/lon grid)? Default
 #'   \code{TRUE}.
 #' @param graticule.colour colour for graticule lines (default
@@ -44,6 +48,14 @@
 #'
 #' Any other value for \code{proj} is passed directly to \code{sf::st_crs()}.
 #'
+#' When \code{focal.lon != 0}, the basemap is pre-processed with
+#' \code{sf::st_shift_longitude()} to avoid horizontal-line artefacts caused
+#' by polygons (e.g. Russia, Antarctica) that span the \eqn{\pm180\deg}
+#' antimeridian in WGS84. Non-sf data layers added with \code{+} (e.g.
+#' \code{geom_point}) can still use standard \eqn{-180/180} lon/lat values
+#' because \code{coord_sf} reprojects them automatically via
+#' \code{default_crs = st_crs(4326)}.
+#'
 #' @return A \code{ggplot2} object. Add data or style layers with \code{+} as
 #'   usual. Non-sf layers using \code{x}/\code{y} aesthetics (e.g.
 #'   \code{geom_point}) are treated as lon/lat in WGS84 and projected
@@ -51,7 +63,7 @@
 #'
 #' @importFrom ggplot2 ggplot geom_sf coord_sf theme_void theme element_rect
 #'   element_blank element_line
-#' @importFrom sf st_crs
+#' @importFrom sf st_crs st_shift_longitude
 #' @export
 #' @examples
 #' # Mollweide (default)
@@ -76,26 +88,28 @@
 #'   ggplot2::geom_point(data = dat, ggplot2::aes(x = lon, y = lat),
 #'                       colour = "red", size = 2)
 #'
-#' # Coral site locations: tropical belt centred on the Pacific
+#' # Coral site locations: tropical belt, Pacific-centred, physical outline only
 #' coral_sites <- data.frame(
 #'   lon = c(147, -65,  37,  73, -157, 134,  55, -175),
 #'   lat = c(-18,  15,  20,   4,   20,   7, -10,  -18)
 #' )
-#' gg_map(proj = "robinson", focal.lon = 180, lat.range = c(-35, 35)) +
+#' gg_map(proj = "robinson", focal.lon = 180, lat.range = c(-35, 35),
+#'        borders = FALSE) +
 #'   ggplot2::geom_point(data = coral_sites,
 #'                       ggplot2::aes(x = lon, y = lat),
 #'                       colour = "coral", size = 2)
 gg_map <- function(
-    proj           = "mollweide",
-    focal.lat      = 0,
-    focal.lon      = 0,
-    lat.range      = c(-90, 90),
-    lon.range      = c(-180, 180),
-    land.colour    = "grey80",
-    ocean.colour   = "#d8e8f0",
-    border.colour  = "grey40",
-    resolution     = 110,
-    graticule      = TRUE,
+    proj             = "mollweide",
+    focal.lat        = 0,
+    focal.lon        = 0,
+    lat.range        = c(-90, 90),
+    lon.range        = c(-180, 180),
+    land.colour      = "grey80",
+    ocean.colour     = "#d8e8f0",
+    border.colour    = "grey40",
+    resolution       = 110,
+    borders          = TRUE,
+    graticule        = TRUE,
     graticule.colour = "grey70") {
 
   if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
@@ -109,11 +123,38 @@ gg_map <- function(
   crs   <- .gg_map_crs(proj, focal.lat, focal.lon)
   world <- rnaturalearth::ne_countries(scale = resolution, returnclass = "sf")
 
-  p <- ggplot2::ggplot() +
-    ggplot2::geom_sf(data = world,
-                     fill     = land.colour,
-                     colour   = border.colour,
-                     linewidth = 0.3) +
+  # Shift longitudes to [0, 360] to avoid horizontal-line artefacts on maps
+  # centred away from the prime meridian (e.g. Russia spanning +-180 deg).
+  if (focal.lon != 0) {
+    world <- sf::st_shift_longitude(world)
+  }
+
+  # Build the land layer(s).
+  # borders = TRUE:  single geom_sf with country outlines.
+  # borders = FALSE: country fill (no outline) + separate ne_coastline() layer.
+  #   Using a coastline line layer avoids the GEOS/s2 topology errors that can
+  #   arise when trying to st_union() complex polygon data.
+  if (borders) {
+    land_layers <- list(
+      ggplot2::geom_sf(data = world,
+                       fill = land.colour, colour = border.colour,
+                       linewidth = 0.3)
+    )
+  } else {
+    coast <- rnaturalearth::ne_coastline(scale = resolution, returnclass = "sf")
+    if (focal.lon != 0) coast <- sf::st_shift_longitude(coast)
+    land_layers <- list(
+      ggplot2::geom_sf(data = world,
+                       fill = land.colour, colour = NA),
+      ggplot2::geom_sf(data = coast,
+                       colour = border.colour, linewidth = 0.3)
+    )
+  }
+
+  p <- ggplot2::ggplot()
+  for (lyr in land_layers) p <- p + lyr
+
+  p +
     ggplot2::coord_sf(crs         = crs,
                       xlim        = lon.range,
                       ylim        = lat.range,
@@ -125,15 +166,13 @@ gg_map <- function(
       panel.border     = ggplot2::element_rect(fill = NA, colour = "grey20",
                                                linewidth = 0.5),
       panel.grid.major = if (graticule) {
-        ggplot2::element_line(colour   = graticule.colour,
+        ggplot2::element_line(colour    = graticule.colour,
                               linewidth = 0.3,
-                              linetype = "dashed")
+                              linetype  = "dashed")
       } else {
         ggplot2::element_blank()
       }
     )
-
-  p
 }
 
 
@@ -171,5 +210,10 @@ gg_map <- function(
     return(sf::st_crs(proj))
   }
 
-  sf::st_crs(sprintf(tmpl, focal.lat, focal.lon))
+  # Substitute %1$s → focal.lat and %2$s → focal.lon using gsub so that
+  # projections with only %2$s (lon-only) don't trigger an sprintf warning
+  # about unused arguments.
+  proj_str <- gsub("%1\\$s", focal.lat, tmpl, fixed = FALSE)
+  proj_str <- gsub("%2\\$s", focal.lon, proj_str, fixed = FALSE)
+  sf::st_crs(proj_str)
 }

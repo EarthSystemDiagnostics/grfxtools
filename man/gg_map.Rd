@@ -14,6 +14,7 @@ gg_map(
   ocean.colour = "#d8e8f0",
   border.colour = "grey40",
   resolution = 110,
+  borders = TRUE,
   graticule = TRUE,
   graticule.colour = "grey70"
 )
@@ -39,11 +40,16 @@ degrees (default \code{c(-180, 180)}).}
 \item{ocean.colour}{background colour for the ocean (default
 \code{"#d8e8f0"}).}
 
-\item{border.colour}{colour for country borders (default \code{"grey40"}).}
+\item{border.colour}{colour for country borders or, when
+\code{borders = FALSE}, the coastline outline (default \code{"grey40"}).}
 
 \item{resolution}{resolution of the Natural Earth basemap: \code{110}
 (coarse, ~1:110m, default), \code{50} (medium), or \code{10} (fine).
 Requires the \pkg{rnaturalearth} package.}
+
+\item{borders}{logical; draw country borders? Default \code{TRUE}. Set to
+\code{FALSE} for a physical outline of land masses only (country polygons
+are dissolved into a single layer).}
 
 \item{graticule}{logical; draw a graticule (lat/lon grid)? Default
 \code{TRUE}.}
@@ -79,6 +85,14 @@ Projections centred on both \code{focal.lat} and \code{focal.lon}:
 \code{"transverse mercator"}.
 
 Any other value for \code{proj} is passed directly to \code{sf::st_crs()}.
+
+When \code{focal.lon != 0}, the basemap is pre-processed with
+\code{sf::st_shift_longitude()} to avoid horizontal-line artefacts caused
+by polygons (e.g. Russia, Antarctica) that span the \eqn{\pm180\deg}
+antimeridian in WGS84. Non-sf data layers added with \code{+} (e.g.
+\code{geom_point}) can still use standard \eqn{-180/180} lon/lat values
+because \code{coord_sf} reprojects them automatically via
+\code{default_crs = st_crs(4326)}.
 }
 \examples{
 # Mollweide (default)
@@ -103,12 +117,13 @@ gg_map() +
   ggplot2::geom_point(data = dat, ggplot2::aes(x = lon, y = lat),
                       colour = "red", size = 2)
 
-# Coral site locations: tropical belt centred on the Pacific
+# Coral site locations: tropical belt, Pacific-centred, physical outline only
 coral_sites <- data.frame(
   lon = c(147, -65,  37,  73, -157, 134,  55, -175),
   lat = c(-18,  15,  20,   4,   20,   7, -10,  -18)
 )
-gg_map(proj = "robinson", focal.lon = 180, lat.range = c(-35, 35)) +
+gg_map(proj = "robinson", focal.lon = 180, lat.range = c(-35, 35),
+       borders = FALSE) +
   ggplot2::geom_point(data = coral_sites,
                       ggplot2::aes(x = lon, y = lat),
                       colour = "coral", size = 2)
