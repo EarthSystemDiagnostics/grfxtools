@@ -31,6 +31,7 @@ Imports:
     ggforce (>= 0.3.1),
     ggplot2 (>= 3.2.1),
     mapproj,
+    plotly (>= 4.9.0),
     raster (>= 3.0.7),
     RColorBrewer (>= 1.1.2),
     rlang,
@@ -38,8 +39,9 @@ Imports:
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2)
 Suggests:
+    reticulate,
     rmarkdown (>= 2.0),
     rnaturalearth (>= 0.1.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
