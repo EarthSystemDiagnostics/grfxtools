@@ -102,4 +102,14 @@ dat <- data.frame(lat = c(15, 45, -30), lon = c(22, -90, 140))
 gg_map() +
   ggplot2::geom_point(data = dat, ggplot2::aes(x = lon, y = lat),
                       colour = "red", size = 2)
+
+# Coral site locations: tropical belt centred on the Pacific
+coral_sites <- data.frame(
+  lon = c(147, -65,  37,  73, -157, 134,  55, -175),
+  lat = c(-18,  15,  20,   4,   20,   7, -10,  -18)
+)
+gg_map(proj = "robinson", focal.lon = 180, lat.range = c(-35, 35)) +
+  ggplot2::geom_point(data = coral_sites,
+                      ggplot2::aes(x = lon, y = lat),
+                      colour = "coral", size = 2)
 }
