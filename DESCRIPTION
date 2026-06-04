@@ -1,7 +1,7 @@
 Package: grfxtools
 Title: An R package of tools to assist with various plotting
     tasks
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(
     person("Thomas", "Muench", email = "thomas.muench@awi.de",
            role = c("aut", "cre")),
@@ -29,17 +29,22 @@ Depends:
 Imports:
     dplyr (>= 1.0.2),
     ggforce (>= 0.3.1),
-    ggplot2 (>= 3.2.1),
+    ggplot2 (>= 3.3.0),
     mapproj,
+    plotly (>= 4.9.0),
     raster (>= 3.0.7),
+    sf (>= 0.9),
     RColorBrewer (>= 1.1.2),
     rlang,
     scales (>= 1.1.1),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2)
 Suggests:
+    reticulate,
     rmarkdown (>= 2.0),
-    rnaturalearth (>= 0.1.0)
+    rnaturalearth (>= 0.1.0),
+    rnaturalearthdata,
+    terra
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3

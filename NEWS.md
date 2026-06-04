@@ -1,3 +1,26 @@
+# grfxtools (development version)
+
+* New function `MapPlotly()` to create interactive maps as plotly htmlwidgets,
+  supporting many projections with flexible centring on any coordinate.
+* New helper `SaveMapPlotly()` to export plotly maps as static images (PNG, SVG,
+  PDF, WebP).
+* New helper `SetupPlotlySave()` to install the Python kaleido dependency needed
+  for static image export.
+* Added `plotly` to package Imports; `reticulate` added to Suggests.
+* New function `gg_map_rast()` — raster-based alternative to `gg_map()` using
+  `terra::project()` for artefact-free antimeridian handling. Requires the
+  `terra` package (added to Suggests).
+* New function `gg_map()` to create static projected maps using ggplot2 and sf,
+  supporting the same projections as `MapPlotly()` plus any PROJ string or EPSG
+  code. Returns a ggplot object — extend with any ggplot2 layer.
+* Added `sf (>= 0.9)` to package Imports; bumped `ggplot2` requirement to
+  `>= 3.3.0`.
+
+# grfxtools 0.5.2
+* fix warning about undocumented argument scales in facet_wrap_paginate_auto
+* fix CMD Check Error in Quartz examples due to graphics device being used in example 
+* add data-raw to .Rbuildignore
+
 # grfxtools 0.5.1
 
 * Added dependency on `mapproj` package (see #15).

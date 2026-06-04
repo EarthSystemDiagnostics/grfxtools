@@ -32,7 +32,9 @@
 #' @examples
 #'
 #' # Create an empty on-screen quartz device
+#' \dontrun{
 #' Quartz()
+#' }
 #'
 #' # Store empty plot in pdf format in local directory
 #' \dontrun{
@@ -52,7 +54,7 @@ Quartz <- function(file = NULL, type = "native", height = 6, width = 8,
     type <- tools::file_ext(file)
     if (nchar(type) == 0)
       stop("No file extension found for setting 'type'.")
-    
+
   }
 
   # Open device
