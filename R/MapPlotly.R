@@ -15,6 +15,7 @@
 #' @param land.color fill colour for land
 #' @param ocean.color fill colour of ocean
 #' @param colors colour palette passed to \code{plotly::plot_geo}
+#' @param legend named list of legend layout options passed to \code{plotly::layout}
 #'
 #' @import plotly
 #' @importFrom tidyr crossing
@@ -126,7 +127,8 @@ MapPlotly <- function(proj = c('equirectangular',
                       show.latgrid = TRUE,
                       land.color = "#e5ecf6",
                       ocean.color = "white",
-                      colors = "Set2"){
+                      colors = "Set2",
+                      legend = list(y = 0.5, yanchor = "middle")){
   
   proj <- match.arg(proj)
   
@@ -197,7 +199,7 @@ MapPlotly <- function(proj = c('equirectangular',
                           showlegend = F) 
   p <-   plotly::add_text(p, x = ~ lon, y = ~lat, text = ~lab, data = df.lat.labs,
                           showlegend = F) 
-  p <-   plotly::layout(p, geo = g, showlegend  = T)
+  p <-   plotly::layout(p, geo = g, showlegend = TRUE, legend = legend)
   
   return(p)
 }
@@ -217,10 +219,17 @@ SetupPlotlySave <- function() {
   if (!requireNamespace("reticulate", quietly = TRUE)) {
     stop("Package 'reticulate' is required. Install with: install.packages('reticulate')")
   }
-  reticulate::install_miniconda(force = FALSE)
-  reticulate::conda_install("r-reticulate", "python-kaleido")
-  reticulate::conda_install("r-reticulate", "plotly", channel = "plotly")
-  message("kaleido installed. Use SaveMapPlotly() to export static images.")
+  if (!dir.exists(reticulate::miniconda_path())) {
+    reticulate::install_miniconda()
+  }
+  # Create the r-reticulate env if it does not exist yet
+  if (!"r-reticulate" %in% reticulate::conda_list()$name) {
+    reticulate::conda_create("r-reticulate")
+  }
+  # Install via pip inside the conda env (conda-forge has no arm64 kaleido build)
+  reticulate::conda_install("r-reticulate", packages = c("kaleido", "plotly"),
+                             pip = TRUE)
+  message("kaleido and plotly installed. Use SaveMapPlotly() to export static images.")
 }
 
 
@@ -244,6 +253,11 @@ SetupPlotlySave <- function() {
 #' SaveMapPlotly(p, "map.svg", scale = 1)
 #' }
 SaveMapPlotly <- function(p, file, width = 1024, height = 768, scale = 2) {
+  # Activate the r-reticulate conda env before Python is first initialised so
+  # that plotly::save_image() finds kaleido and plotly in the right place.
+  if (!reticulate::py_available()) {
+    reticulate::use_condaenv("r-reticulate", required = FALSE)
+  }
   plotly::save_image(p, file = file, width = width, height = height, scale = scale)
 }
 
