@@ -15,6 +15,7 @@
 #' @param land.color fill colour for land
 #' @param ocean.color fill colour of ocean
 #' @param colors colour palette passed to \code{plotly::plot_geo}
+#' @param legend named list of legend layout options passed to \code{plotly::layout}
 #'
 #' @import plotly
 #' @importFrom tidyr crossing
@@ -126,7 +127,8 @@ MapPlotly <- function(proj = c('equirectangular',
                       show.latgrid = TRUE,
                       land.color = "#e5ecf6",
                       ocean.color = "white",
-                      colors = "Set2"){
+                      colors = "Set2",
+                      legend = list(y = 0.5, yanchor = "middle")){
   
   proj <- match.arg(proj)
   
@@ -197,7 +199,7 @@ MapPlotly <- function(proj = c('equirectangular',
                           showlegend = F) 
   p <-   plotly::add_text(p, x = ~ lon, y = ~lat, text = ~lab, data = df.lat.labs,
                           showlegend = F) 
-  p <-   plotly::layout(p, geo = g, showlegend  = T)
+  p <-   plotly::layout(p, geo = g, showlegend = TRUE, legend = legend)
   
   return(p)
 }
