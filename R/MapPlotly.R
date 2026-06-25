@@ -180,8 +180,7 @@ MapPlotly <- function(proj = c('equirectangular',
     showland = TRUE,
     landcolor = plotly::toRGB(land.color),
     showocean = TRUE,
-    oceancolor = plotly::toRGB(ocean.color),
-    color = plotly::toRGB("red")
+    oceancolor = plotly::toRGB(ocean.color)
   )
   
   
@@ -258,6 +257,60 @@ SaveMapPlotly <- function(p, file, width = 1024, height = 768, scale = 2) {
   if (!reticulate::py_available()) {
     reticulate::use_condaenv("r-reticulate", required = FALSE)
   }
-  plotly::save_image(p, file = file, width = width, height = height, scale = scale)
+  # Replicate the internal flow of save_image / newKaleidoScope$transform, but
+  # intercept the JSON to fix single-point scattergeo traces before kaleido
+  # renders them.
+  #
+  # We do NOT use pio.write_image (Python) because it validates the figure dict
+  # through go.Figure(), which rejects R-internal JSON fields like 'frame' on
+  # traces, 'mapType' in layout, etc.  kaleido$write_fig_sync passes the raw
+  # dict straight to the browser renderer, which ignores unknown fields — the
+  # same behaviour as R's save_image.
+  #
+  # We also do NOT call save_image(already_built_object) because save_image
+  # calls plotly_build() internally; on a pre-built object that still carries
+  # $x$attrs, a second build doubles all lazy traces (making graticule lines
+  # appear thick).
+  fig_data <- plotly::plotly_build(p)$x[c("data", "layout", "config")]
+  fig_json <- jsonlite::toJSON(fig_data, digits = 50, auto_unbox = TRUE,
+                               force = TRUE, null = "null", na = "null")
+  tmp_json <- tempfile(fileext = ".json")
+  on.exit(unlink(tmp_json), add = TRUE)
+  writeLines(fig_json, tmp_json)
+  # Fix single-point scattergeo traces: kaleido 1.x silently drops them.
+  # Appending None to lat/lon makes the array length 2 (satisfying kaleido's
+  # check) while Plotly.js treats null entries as gaps — no marker is drawn,
+  # no line segment rendered, and legend appearance is unaffected.
+  # Also fix scalar text/hoverinfo produced by jsonlite auto_unbox on 1-element
+  # R character vectors — kaleido 1.x drops traces where these are scalars.
+  reticulate::py_run_string(sprintf(paste(
+    "import json",
+    "with open('%s') as f:",
+    "    plotly_fig = json.load(f)",
+    "for tr in plotly_fig.get('data', []):",
+    "    if tr.get('type') != 'scattergeo':",
+    "        continue",
+    "    if isinstance(tr.get('text'), str):",
+    "        tr['text'] = [tr['text']]",
+    "    if isinstance(tr.get('hoverinfo'), str):",
+    "        tr['hoverinfo'] = [tr['hoverinfo']]",
+    "    if not (isinstance(tr.get('lat'), list) and len(tr['lat']) == 1):",
+    "        continue",
+    "    tr['lat'] = tr['lat'] + [None]",
+    "    tr['lon'] = tr['lon'] + [None]",
+    "    if isinstance(tr.get('text'), list):",
+    "        tr['text'] = tr['text'] + [None]",
+    "    if isinstance(tr.get('hoverinfo'), list):",
+    "        tr['hoverinfo'] = tr['hoverinfo'] + [None]",
+    sep = "\n"), tmp_json))
+  kaleido_pkg <- reticulate::import("kaleido")
+  fmt <- tolower(tools::file_ext(file))
+  opts  <- list(format = fmt,
+                width  = reticulate::r_to_py(as.integer(width)),
+                height = reticulate::r_to_py(as.integer(height)),
+                scale  = reticulate::r_to_py(scale))
+  kopts <- list(plotlyjs = plotly:::plotlyMainBundlePath())
+  kaleido_pkg$write_fig_sync(reticulate::py$plotly_fig, file,
+                              opts = opts, kopts = kopts)
 }
 
