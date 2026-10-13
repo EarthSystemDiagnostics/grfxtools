@@ -5,11 +5,11 @@
 \title{MapPlotly}
 \usage{
 MapPlotly(
-  proj = c("equirectangular", "mercator", "orthographic", "natural earth", "kavrayskiy7",
-    "miller", "robinson", "eckert4", "azimuthal equal area", "azimuthal equidistant",
-    "conic equal area", "conic conformal", "conic equidistant", "gnomonic",
-    "stereographic", "mollweide", "hammer", "transverse mercator", "winkel tripel",
-    "aitoff", "sinusoidal"),
+  proj = c("equal earth", "equirectangular", "mercator", "orthographic", "natural earth",
+    "kavrayskiy7", "miller", "robinson", "eckert4", "azimuthal equal area",
+    "azimuthal equidistant", "conic equal area", "conic conformal", "conic equidistant",
+    "gnomonic", "stereographic", "mollweide", "hammer", "transverse mercator",
+    "winkel tripel", "aitoff", "sinusoidal"),
   resolution = 110,
   focal.lat = 0,
   focal.lon = 0,
@@ -23,7 +23,8 @@ MapPlotly(
   show.latgrid = TRUE,
   land.color = "#e5ecf6",
   ocean.color = "white",
-  colors = "Set2"
+  colors = "Set2",
+  legend = list(y = 0.5, yanchor = "middle")
 )
 }
 \arguments{
@@ -54,6 +55,8 @@ MapPlotly(
 \item{ocean.color}{fill colour of ocean}
 
 \item{colors}{colour palette passed to \code{plotly::plot_geo}}
+
+\item{legend}{named list of legend layout options passed to \code{plotly::layout}}
 }
 \value{
 a plotly widget

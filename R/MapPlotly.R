@@ -93,7 +93,8 @@
 #'                focal.lat = 90, focal.lon = 135)
 #' p
 #' }
-MapPlotly <- function(proj = c('equirectangular',
+MapPlotly <- function(proj = c('equal earth',
+                               'equirectangular',
                                'mercator',
                                'orthographic',
                                'natural earth',
